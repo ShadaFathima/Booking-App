@@ -15,12 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-# from cors import urls as cors_urls
 from django.urls import path, include
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('api/', include(cors_urls)),
-    # path('api/',include('cors.urls.api')),
+    path('api/', include('posts.api.urls')),
+    path('', include('posts.api.urls')),
 ]
