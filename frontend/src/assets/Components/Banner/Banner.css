@@ -1,0 +1,40 @@
+.banner {
+  background: rgba(255, 255, 255, 0.5) url("../../images/banneropacty.jpg"); /* Replace with your actual image path */
+  background-size: cover;
+  background-position: center;
+  height: 600px; /* Adjust as needed */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 50px;
+  /* align-items: center; */
+  /* Reduce background image opacity only */
+  /* Adjust as needed */
+}
+
+.content {
+  width: 50%;
+  margin-left: 70px;
+}
+.content h1 {
+  font-size: 48px; /* Adjust font size as needed */
+  margin-bottom: 20px;
+  margin-left: 50px;
+}
+
+.content p {
+  font-size: 20px; /* Adjust font size as needed */
+  margin-bottom: 30px;
+  margin-left: 50px;
+}
+
+.content .explore-button {
+  background-color: #000; /* Change button color to black */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-left: 4rem;
+  cursor: pointer;
+}

@@ -1,0 +1,25 @@
+.row {
+  /* margin-left: 20px; */
+  /* margin-top: 80px; */
+  background-color: rgb(187, 182, 182);
+}
+.posters {
+  display: flex;
+  padding: 20px;
+}
+
+.poster {
+  max-height: 175px;
+  margin-right: 10px;
+}
+.cardbg {
+  margin-top: 80px;
+  height: 350px;
+  background-color: rgb(218, 213, 213);
+  align-items: center;
+  padding: 30px;
+  padding-left: 40px;
+}
+.card {
+  padding: 20px;
+}
