@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-%q)0%ea$n7x%lmwqxs+a9s3ec4yl6d0isjm=07l@#5q74*@nca
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['127.0.0.1','localhost']
 
 
 # Application definition
@@ -41,15 +41,38 @@ INSTALLED_APPS = [
     'corsheaders',
     'posts',
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
 
-CORS_ALLOWED__ORIGINS=[' http://localhost:5173']
-# CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'http://127.0.0.1:8000'
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5173',  # Update to your actual frontend origin
+    'http://127.0.0.1:8000',  # Allow requests from your Django development server
+]
+
+# Optionally, you can specify CSRF_TRUSTED_ORIGINS as well
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+    'http://127.0.0.1:8000',
+    # Add other trusted origins with the 'http://' or 'https://' scheme as needed
+]
+
+
+CORS_ORIGIN_ALLOW_ALL = False
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -121,7 +144,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
