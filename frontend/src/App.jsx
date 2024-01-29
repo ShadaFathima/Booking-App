@@ -1,19 +1,15 @@
-import AboutUs from "./assets/Components/AboutUs/about";
-import Banner from "./assets/Components/Banner/banner";
-import Footer from "./assets/Components/Footer/Footer";
-import Navbar from "./assets/Components/NavBar/Navbar";
-import CardRow from "./assets/Components/RowVenues/cardRow";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainPage from "./assets/MainPage";
+import ContactPage from "./assets/ContactPage";
 
 const App = () => {
   return (
-    <div className="">
-      <Navbar />
-      <Banner />
-      <AboutUs />
-      <Footer />
-
-      {/* <h1>Hello</h1> */}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

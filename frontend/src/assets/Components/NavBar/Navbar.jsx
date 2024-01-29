@@ -2,16 +2,21 @@ import "./Navbar.css";
 import cart from "../../images/cart.png";
 import avatar from "../../images/user.png";
 import search from "../../images/search.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <div className="navbar">
       <h1>EVENTIO</h1>
       <ul>
-        <li>HOME</li>
+        <Link>
+          <li>HOME</li>
+        </Link>
         <li>VENUES</li>
         <li>ABOUT</li>
-        <li>CONTACT</li>
+        <Link to="/contact">
+          <li>CONTACT</li>
+        </Link>
       </ul>
       <div className="searchbox">
         <img src={search} alt="" />
