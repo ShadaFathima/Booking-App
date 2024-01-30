@@ -24,7 +24,9 @@ const Navbar = () => {
       </div>
 
       <img className="cart" src={cart} alt="" />
-      <img className="avatar" src={avatar} alt="" />
+      <Link to="/login">
+        <img className="avatar" src={avatar} alt="" />
+      </Link>
     </div>
   );
 };
