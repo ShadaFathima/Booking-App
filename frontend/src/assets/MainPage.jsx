@@ -2,13 +2,17 @@ import AboutUs from "./Components/AboutUs/About";
 import Banner from "./Components/Banner/Banner";
 import Footer from "./Components/Footer/Footer";
 import Navbar from "./Components/NavBar/Navbar";
-import VenueCards from "./Components/VenueCards";
+
+import Review from "./Components/Review ";
+import VenueSlider from "./Components/VenueSlider";
+
 const MainPage = () => {
   return (
     <div>
       <Navbar />
       <Banner />
-      <VenueCards />
+      <VenueSlider />
+      <Review />
       <AboutUs />
       <Footer />
     </div>
