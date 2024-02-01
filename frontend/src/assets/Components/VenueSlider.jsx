@@ -5,20 +5,22 @@ import "./venue.css";
 
 const VenueCard = ({ image, name, description, price }) => {
   return (
-    <div className="max-w-xs bg-white border border-gray-300 rounded-md shadow-md overflow-hidden transition-transform ease-in-out duration-300 transform hover:scale-105">
-      <img className="w-full h-36 object-cover p-4" src={image} alt="" />
-      <div className="p-4">
-        <h5 className="text-lg font-bold text-center mb-2">{name}</h5>
-        <p className="text-gray-700 mb-4">{description}</p>
-        <p className="text-red-600 font-semibold">{`$${price.toFixed(2)}`}</p>
-        <a
-          href="#"
-          className="block mt-4 text-black hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300"
-        >
-          Read more
-        </a>
+    <section className="card-section">
+      <div className="max-w-xs bg-white border border-gray-300 rounded-md shadow-md overflow-hidden transition-transform ease-in-out duration-300 transform hover:scale-105">
+        <img className="w-full h-36 object-cover p-4" src={image} alt="" />
+        <div className="p-4">
+          <h5 className="text-lg font-bold text-center mb-2">{name}</h5>
+          <p className="text-gray-700 mb-4">{description}</p>
+          <p className="text-red-600 font-semibold">{`$${price.toFixed(2)}`}</p>
+          <a
+            href="#"
+            className="block mt-4 text-black hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300"
+          >
+            Read more
+          </a>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -48,6 +50,7 @@ const VenueSlider = () => {
       description: "Spacious and elegant, perfect for events.",
       price: 200,
     },
+
     {
       id: 3,
       image:
