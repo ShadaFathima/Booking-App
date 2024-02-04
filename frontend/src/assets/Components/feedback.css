@@ -1,0 +1,55 @@
+/* FeedbackForm.css */
+.feedback-section {
+  background-color: #888;
+  color: #020101;
+  text-align: center;
+  padding: 20px;
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+}
+
+.feedback-section p {
+  margin-top: 2rem;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.feedback-form {
+  /* background-color: #ddd;  */
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 0;
+  outline: 0;
+
+  border-radius: 4rem;
+}
+
+.submit-button {
+  /* background-color: #020101; */
+  width: 40%;
+  margin-top: 2rem;
+  padding: 10px;
+
+  color: white;
+
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.feedback-form button {
+  background-color: #000;
+}
+
+@media (max-width: 768px) {
+  .feedback-form {
+    max-width: 90%;
+  }
+}
