@@ -6,7 +6,7 @@ import "./venue.css";
 const VenueCard = ({ image, name, description, price }) => {
   return (
     <section className="card-section">
-      <div className="max-w-xs bg-white border border-gray-300 rounded-md shadow-md overflow-hidden transition-transform ease-in-out duration-300 transform hover:scale-105">
+      <div className="h-[350px] max-w-xs bg-white border border-gray-300 rounded-md shadow-md overflow-hidden transition-transform ease-in-out duration-300 transform hover:scale-105">
         <img className="w-full h-36 object-cover p-4" src={image} alt="" />
         <div className="p-4">
           <h5 className="text-lg font-bold text-center mb-2">{name}</h5>
@@ -85,7 +85,7 @@ const VenueSlider = () => {
   };
 
   return (
-    <div className="relative bg-gray-200 h-96 overflow-hidden flex items-center justify-center">
+    <div className="relative py-10 bg-gray-200 overflow-hidden flex items-center justify-center">
       <div className="flex space-x-4 p-8">
         {venues.slice(currentIndex, currentIndex + 3).map((venue) => (
           <VenueCard

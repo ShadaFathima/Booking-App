@@ -6,7 +6,7 @@ import Navbar from "./Components/NavBar/Navbar";
 import Review from "./Components/Review ";
 import Service from "./Components/Service";
 import VenueSlider from "./Components/VenueSlider";
-import Story from "./Components/story";
+import Story from "./Components/Story";
 
 const MainPage = () => {
   return (
