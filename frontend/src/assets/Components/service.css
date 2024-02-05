@@ -1,0 +1,39 @@
+/* ServiceSection.css */
+.service-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.service-subsection {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.subsection-heading {
+  font-size: 3rem; /* Increased heading size */
+  margin-bottom: 1rem; /* Increased padding between heading and content */
+}
+
+.subsection-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem; /* Increased padding as needed */
+}
+
+.subsection-image-left,
+.subsection-image-right {
+  width: 150px; /* Adjust the size as needed */
+  height: 150px; /* Adjust the size as needed */
+  object-fit: cover;
+  border-radius: 10px; /* Make it square */
+  margin: 0 1rem; /* Adjust margin between image and description */
+}
+
+.subsection-description {
+  font-size: 1.2rem; /* Adjust font size as needed */
+}
