@@ -50,7 +50,6 @@ const VenueSlider = () => {
       description: "Spacious and elegant, perfect for events.",
       price: 200,
     },
-
     {
       id: 3,
       image:
@@ -70,32 +69,34 @@ const VenueSlider = () => {
     // Add more venues as needed
   ];
 
+  const totalVenues = venues.length;
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const showPrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : venues.length - 1
-    );
+  const showNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalVenues);
   };
 
-  const showNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex < venues.length - 1 ? prevIndex + 1 : 0
-    );
+  const showPrevious = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + totalVenues) % totalVenues);
   };
 
   return (
     <div className="relative py-10 bg-gray-200 overflow-hidden flex items-center justify-center">
       <div className="flex space-x-4 p-8">
-        {venues.slice(currentIndex, currentIndex + 3).map((venue) => (
-          <VenueCard
-            key={venue.id}
-            image={venue.image}
-            name={venue.name}
-            description={venue.description}
-            price={venue.price}
-          />
-        ))}
+        {[0, 1, 2].map((index) => {
+          const venueIndex = (currentIndex + index) % totalVenues;
+          const venue = venues[venueIndex];
+          return (
+            <VenueCard
+              key={venue.id}
+              image={venue.image}
+              name={venue.name}
+              description={venue.description}
+              price={venue.price}
+            />
+          );
+        })}
       </div>
       <div className="absolute left-8 top-1/2 transform -translate-y-1/2 cursor-pointer text-white transition-transform ease-in-out duration-300 hover:scale-110">
         <svg

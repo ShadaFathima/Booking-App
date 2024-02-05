@@ -19,6 +19,7 @@ const MainPage = () => {
       <AboutUs />
       <Story />
       <Feedback />
+
       <Footer />
     </div>
   );
