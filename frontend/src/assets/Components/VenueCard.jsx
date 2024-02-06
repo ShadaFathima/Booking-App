@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./venue.css";
+import { Link } from "react-router-dom";
 
 const VenueCard = () => {
   const settings = {
@@ -28,12 +29,13 @@ const VenueCard = () => {
                   <p className="text-xl font-semibold">{d.name}</p>
                   <p>{d.description}</p>
                   <p>${d.price}</p>
-                  <a
+
+                  <Link
+                    to="/venue"
                     className=" text-red text-lg px-6 py-1 block mt-4 text-black hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300"
-                    href=""
                   >
                     Read more
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}

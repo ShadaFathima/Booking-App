@@ -3,19 +3,19 @@ import "./review.css";
 
 const Review = () => {
   return (
-    <section className="bg-white">
+    <section className="bg-gray-200">
       <div
-        id="card"
+        // id="card"
         className="mx-auto max-w-screen-xl px-8 py-12 sm:px-8 lg:px-10 lg:py-16"
       >
         <h2
           id="heading"
-          className="text-center text-4xl  tracking-tight text-gray-900 sm:text-5xl underline mt-4"
+          className=" text-center text-4xl  tracking-tight text-gray-900 sm:text-5xl underline mt-4"
         >
           What Our Clients Say
         </h2>
 
-        <div className="mt-6 grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-0">
+        <div className="mt-6  grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-0">
           <blockquote className="rounded-lg bg-white p-4 sm:p-6 w-full md:w-72 shadow-md">
             <div className="flex flex-col items-center">
               <img

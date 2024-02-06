@@ -2,6 +2,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import "./venue.css";
+import { Link } from "react-router-dom";
 
 const VenueCard = ({ image, name, description, price }) => {
   return (
@@ -12,12 +13,13 @@ const VenueCard = ({ image, name, description, price }) => {
           <h5 className="text-lg font-bold text-center mb-2">{name}</h5>
           <p className="text-gray-700 mb-4">{description}</p>
           <p className="text-red-600 font-semibold">{`$${price.toFixed(2)}`}</p>
-          <a
-            href="#"
+
+          <Link
+            to="/venue"
             className="block mt-4 text-black hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300"
           >
             Read more
-          </a>
+          </Link>
         </div>
       </div>
     </section>
