@@ -7,6 +7,7 @@ import Review from "./Components/Review ";
 import Service from "./Components/Service";
 import VenueSlider from "./Components/VenueSlider";
 import Story from "./Components/Story";
+import PaymentForm from "./Components/PaymentForm";
 
 const MainPage = () => {
   return (
@@ -19,6 +20,7 @@ const MainPage = () => {
       <AboutUs />
       <Story />
       <Feedback />
+      <PaymentForm />
 
       <Footer />
     </div>
