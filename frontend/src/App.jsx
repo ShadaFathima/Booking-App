@@ -4,6 +4,7 @@ import ContactPage from "./assets/ContactPage";
 import LoginForm from "./assets/Components/Login/LoginForm";
 import Signup from "./assets/Components/Signup";
 import VenueView from "./assets/Components/VenueView";
+import VenueList from "./assets/Components/VenueList";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/login" element={<LoginForm />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/venue" element={<VenueView />}></Route>
+        <Route path="/venuelist" element={<VenueList />}></Route>
       </Routes>
     </BrowserRouter>
   );

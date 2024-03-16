@@ -7,21 +7,24 @@ import Review from "./Components/Review ";
 import Service from "./Components/Service";
 // import Venue from "./Components/VenueSlider";
 import Story from "./Components/Story";
-import PaymentForm from "./Components/PaymentForm";
-import VenueCard from "./Components/VenueSlider";
+import VenueSlider from "./Components/VenueSlider";
+// import PaymentForm from "./Components/PaymentForm";
+// import VenueCard from "./Components/VenueSlider";
 
 const MainPage = () => {
   return (
     <div>
       <Navbar />
+      
       <Banner />
-      <VenueCard />
+      <VenueSlider />
+      {/* <VenueCard /> */}
       <Service />
       <Review />
       <AboutUs />
       <Story />
       <Feedback />
-      <PaymentForm />
+    
 
       <Footer />
     </div>
