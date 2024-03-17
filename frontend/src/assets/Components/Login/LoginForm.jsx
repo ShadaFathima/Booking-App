@@ -1,6 +1,45 @@
 import { Link } from "react-router-dom";
 import "./login.css";
 const LoginForm = () => {
+
+  //Javascript Added for form validation
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+
+  // Handler function to update form data
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handler function to submit the form
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('your-login-endpoint', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      if (data.success) {
+        // Redirect to the specified URL
+        window.location.href = data.redirect_url;
+      } else {
+        // Handle unsuccessful login
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  //Javascript validation end here
+
+  
   return (
     <div className="flex items-center justify-center h-screen">
       <div

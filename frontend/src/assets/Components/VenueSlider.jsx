@@ -9,7 +9,7 @@ const VenueCard = ({ image, title, description, payment }) => {
       <img className="w-full h-36 object-cover p-4" src={image} alt="" />
       <div className="p-4">
         <h5 className="text-lg font-bold text-center mb-2">{title}</h5>
-        <p className="text-gray-700 mb-4">{description}</p>
+        <p className="text-gray-700 mb-4 venue-card">{description}</p> {/* Added venue-card class */}
         <p className="text-red-600 font-semibold">{`$${payment}`}</p>
         <Link
           to="/venue"
@@ -110,6 +110,7 @@ const VenueSlider = () => {
 };
 
 export default VenueSlider;
+
 
 
 
