@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: ""
   });
   const [error, setError] = useState(""); // State to store error message
@@ -16,6 +16,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
     try {
       const response = await fetch('http://127.0.0.1:8000/login/', {
         method: 'POST',
@@ -53,16 +54,16 @@ const LoginForm = () => {
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Your email
+              Usernqm
             </label>
             <input
-              type="email"
-              name="email"
-              id="email"
-              value={formData.email}
+              type="text"
+              name="username"
+              id="username"
+              value={formData.username}
               onChange={handleChange}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              placeholder="name@company.com"
+              placeholder="username"
               required
             />
           </div>
