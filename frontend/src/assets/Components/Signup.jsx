@@ -46,7 +46,7 @@ const Signup = () => {
       );
       if (response.data.success) {
         console.log("success");
-        window.location.href = "/"; // Redirect to homepage on successful registration
+        window.location.href = "/login/"; // Redirect to homepage on successful registration
       } else {
         console.error(response.data.message);
       }
