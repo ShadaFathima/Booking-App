@@ -32,6 +32,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(formData);
       const response = await axios.post(
         "http://127.0.0.1:8000/register/",
         formData,
@@ -44,6 +45,7 @@ const Signup = () => {
         }
       );
       if (response.data.success) {
+        console.log("success");
         window.location.href = "/"; // Redirect to homepage on successful registration
       } else {
         console.error(response.data.message);
