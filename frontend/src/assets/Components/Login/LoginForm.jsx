@@ -1,23 +1,23 @@
-import { Link } from "react-router-dom";
-import "./login.css";
-const LoginForm = () => {
+// LoginForm.jsx
 
-  //Javascript Added for form validation
+import { Link } from "react-router-dom";
+import { useState } from "react";
+
+const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
+  const [error, setError] = useState(""); // State to store error message
 
-  // Handler function to update form data
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handler function to submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('your-login-endpoint', {
+      const response = await fetch('/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -26,30 +26,28 @@ const LoginForm = () => {
       });
       const data = await response.json();
       if (data.success) {
-        // Redirect to the specified URL
-        window.location.href = data.redirect_url;
+        window.location.href = '/'; // Redirect to the specified URL on successful login
       } else {
-        // Handle unsuccessful login
-        console.error(data.message);
+        setError(data.message); // Set error message if login is unsuccessful
       }
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  //Javascript validation end here
-
-  
   return (
     <div className="flex items-center justify-center h-screen">
       <div
         id="border"
         className="w-full max-w-md p-6 bg-white border border-gray-200 rounded-lg shadow-lg sm:p-8 md:p-10 dark:bg-gray-800 dark:border-gray-700"
       >
-        <form className="space-y-6" action="#">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <h3 className="text-xl font-medium text-gray-900 dark:text-white">
             Login
           </h3>
+          {error && (
+            <div className="text-red-500">{error}</div> // Display error message if there's an error
+          )}
           <div>
             <label
               htmlFor="email"
@@ -61,6 +59,8 @@ const LoginForm = () => {
               type="email"
               name="email"
               id="email"
+              value={formData.email}
+              onChange={handleChange}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="name@company.com"
               required
@@ -77,35 +77,12 @@ const LoginForm = () => {
               type="password"
               name="password"
               id="password"
-              placeholder="••••••••"
+              value={formData.password}
+              onChange={handleChange}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              placeholder="••••••••"
               required
             />
-          </div>
-          <div className="flex items-start">
-            <div className="flex items-start">
-              <div className="flex items-center h-5">
-                <input
-                  id="remember"
-                  type="checkbox"
-                  value=""
-                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                  required
-                />
-              </div>
-              <label
-                htmlFor="remember"
-                className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                Keep me logged in
-              </label>
-            </div>
-            <a
-              href="#"
-              className="ms-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
-            >
-              Forgot Password?
-            </a>
           </div>
           <button
             type="submit"
