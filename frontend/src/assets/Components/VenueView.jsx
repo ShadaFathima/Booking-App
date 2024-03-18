@@ -6,6 +6,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Navbar from './NavBar/Navbar';
 import Footer from './Footer/Footer';
+import img1 from '../images/venue1.jpg';
+import img2 from '../images/view.jpeg';
+import img3 from '../images/venue2.jpg';
 
 const VenueView = () => {
   const [startDate, setStartDate] = useState(null);
@@ -13,11 +16,7 @@ const VenueView = () => {
   const [availabilityChecked, setAvailabilityChecked] = useState(false);
 
   // Sample images for the slider
-  const images = [
-    '/path/to/image1.jpg',
-    '/path/to/image2.jpg',
-    '/path/to/image3.jpg',
-  ];
+  const images = [`${img1}`, `${img2}`, `${img3}`];
 
   // Sample time slots
   const timeSlots = ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'];
@@ -64,6 +63,7 @@ const VenueView = () => {
             onChange={(date) => setStartDate(date)}
             className="border border-gray-300 rounded-lg px-4 py-2 mb-4 sm:mb-0 mr-4"
             placeholderText="Select Date"
+            minDate={new Date()} // Set minDate to today's date to disable past dates
           />
           <select
             className="border border-gray-300 rounded-lg px-4 py-2 mb-4 sm:mb-0 mr-4"
