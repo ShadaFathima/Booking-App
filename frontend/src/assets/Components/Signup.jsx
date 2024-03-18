@@ -1,13 +1,29 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password1: "",
-    password2: ""
+    password2: "",
   });
+  const [csrfToken, setCSRFToken] = useState("");
+
+  useEffect(() => {
+    async function fetchCSRFToken() {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/csrf/", {
+          withCredentials: true, // include credentials for CORS requests
+        });
+        setCSRFToken(response.data.csrfToken);
+        console.log(csrfToken);
+      } catch (error) {
+        console.error("Error fetching CSRF token:", error);
+      }
+    }
+    fetchCSRFToken();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,23 +32,29 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/register/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
-      const data = await response.json();
-      if (data.success) {
-        window.location.href = "/"; // Redirect to homepage on successful registration
+      console.log(formData);
+      const response = await axios.post(
+        "http://127.0.0.1:8000/register/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken, // Include CSRF token in headers
+          },
+          withCredentials: true, // include credentials for CORS requests
+        }
+      );
+      if (response.data.success) {
+        console.log("success");
+        window.location.href = "/login/"; // Redirect to homepage on successful registration
       } else {
-        console.error(data.message);
+        console.error(response.data.message);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error(error);
     }
   };
+
   return (
     <div className="flex items-center justify-center h-screen">
       <div
@@ -115,38 +137,13 @@ const Signup = () => {
               required
             />
           </div>
-          <p className="text-xs text-gray-500 dark:text-gray-300">
-            By continuing, you agree to our terms of services
-          </p>
           <button
-            type="submit" formAction="post" onSubmit={handleSubmit}
+            type="submit"
             className="w-full text-white bg-black hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-2"
           >
             Sign Up
           </button>
-
-          <div className="flex items-center mt-2">
-            <div className="flex-1 border-b border-gray-300 dark:border-gray-600"></div>
-            <span className="mx-3 text-sm text-gray-500 dark:text-gray-300">
-              or
-            </span>
-            <div className="flex-1 border-b border-gray-300 dark:border-gray-600"></div>
-          </div>
-          <button
-            type="button"
-            className="w-full text-gray-700 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800 mt-2"
-          >
-            <img src="" alt="" /> Continue with Google
-          </button>
-          <div className="text-sm font-medium text-gray-500 dark:text-gray-300 mt-2">
-            Already have an account?{" "}
-            <Link
-              className="text-blue-700 hover:underline dark:text-blue-500"
-              to="/login"
-            >
-              Login
-            </Link>
-          </div>
+          {/* Other buttons and links */}
         </form>
       </div>
     </div>

@@ -73,7 +73,7 @@ const VenueSlider = () => {
             image={venue.image}
             title={venue.title}
             description={venue.description}
-            payment={venue.payment}
+            payment={parseFloat(venue.payment)}
           />
         ))}
       </div>
