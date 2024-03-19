@@ -1,32 +1,26 @@
 .admin-view {
-    text-align: center;
-  }
-  
-  .dashboard-heading {
-    font-weight: bold;
-    margin-bottom: 20px; /* Add space between heading and components */
-  }
-  
-  .booking-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .booking-item {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    width: 80%;
-    max-width: 600px;
-  }
-  
-  .booking-details {
-    margin-bottom: 20px;
-  }
-  
-  .user-details {
-    margin-top: 20px;
-  }
-  
+  text-align: center;
+}
+
+.dashboard-heading {
+  font-weight: bold;
+  margin-bottom: 20px; /* Add space between heading and table */
+}
+
+.booking-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.booking-table th, .booking-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.booking-table th {
+  background-color: #f2f2f2;
+}
+
+.booking-table th:first-child, .booking-table td:first-child {
+  width: 10%;
+}

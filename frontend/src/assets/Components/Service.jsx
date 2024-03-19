@@ -11,7 +11,7 @@ const Service = () => {
             Book ideal venues with ease. <br /> Elevate your events now!
           </p>
           <img
-            src="https://i.pinimg.com/236x/7f/8b/9e/7f8b9efd259c6225a1f7ee8b7a8d11c9.jpg"
+            src="https://i.pinimg.com/564x/1a/75/93/1a7593a91d3ea833a96b3fc9fbf7e1ad.jpg"
             alt="Our Services"
             className="subsection-image-right"
           />

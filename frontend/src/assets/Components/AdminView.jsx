@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './AdminView.css';
+import './AdminView.css'; // Import CSS file for custom styles
 
 const AdminView = () => {
   // Sample booking data
@@ -25,67 +25,33 @@ const AdminView = () => {
 
   return (
     <div className="admin-view">
-      <h2>Admin Dashboard - Bookings</h2>
-      <div className="booking-list">
-        {bookings.map((booking) => (
-          <div key={booking.id} className="booking-item">
-            <div>
-              <h3>Booking Date: {booking.date}</h3>
-              <p>Booking Time: {booking.time}</p>
-            </div>
-            <div>
-              <h3>User Details</h3>
-              <p>User ID: {booking.userId}</p>
-              <p>User Name: {booking.userName}</p>
-              <p>User Email: {booking.userEmail}</p>
-            </div>
-          </div>
-        ))}
-      </div>
+      <h2 className="dashboard-heading">Admin Dashboard - Bookings</h2>
+      <table className="booking-table">
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Booking Date</th>
+            <th>Booking Time</th>
+            <th>User ID</th>
+            <th>User Name</th>
+            <th>User Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {bookings.map((booking) => (
+            <tr key={booking.id}>
+              <td>{booking.id}</td>
+              <td>{booking.date}</td>
+              <td>{booking.time}</td>
+              <td>{booking.userId}</td>
+              <td>{booking.userName}</td>
+              <td>{booking.userEmail}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
 export default AdminView;
-
-
-
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import BookingItem from './BookingItem'; // Assuming you have a BookingItem component
-
-// const AdminView = () => {
-//   const [bookings, setBookings] = useState([]);
-
-//   // Simulated bookings data
-//   const initialBookings = [
-//     { id: 1, userId: 1, venue: 'Auditorium A', date: '2024-02-15', time: '10:00 AM' },
-//     { id: 2, userId: 2, venue: 'Auditorium B', date: '2024-02-17', time: '2:00 PM' },
-//     // Add more sample bookings as needed
-//   ];
-
-//   useEffect(() => {
-//     // Simulated API call to fetch bookings data
-//     // Replace this with actual API call to your backend
-//     // For demonstration purposes, we'll use setTimeout to mimic async behavior
-//     setTimeout(() => {
-//       setBookings(initialBookings);
-//     }, 1000);
-//   }, []);
-
-//   return (
-//     <div className="admin-view">
-//       <h2>Admin Dashboard - Bookings</h2>
-//       <div className="booking-list">
-//         {bookings.map((booking) => (
-//           <BookingItem key={booking.id} booking={booking} />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AdminView;
