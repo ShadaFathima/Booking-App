@@ -14,7 +14,7 @@ const VenueCard = ({ image, title, description, payment }) => {
         <p className="text-gray-700 mb-4">{description}</p>
         <p className="text-red-600 font-semibold">{`$${payment}`}</p>
         <Link
-          to="/venue"
+          to="/venue/:id"
           className="block mt-4 text-black hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300"
         >
           Read more
