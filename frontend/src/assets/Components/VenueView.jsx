@@ -1,4 +1,65 @@
-import React, { useState } from 'react';
+// import React, { useState, useEffect } from 'react';
+// import PropTypes from 'prop-types';
+// import Slider from 'react-slick';
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
+// import DatePicker from 'react-datepicker';
+// import 'react-datepicker/dist/react-datepicker.css';
+// import Navbar from './NavBar/Navbar';
+// import Footer from './Footer/Footer';
+// import { useParams } from 'react-router-dom';
+
+// const VenueView = () => {
+//   const { title } = useParams();
+//   // Log the value of title to the console
+//   console.log('Title:', title);
+//   const [venue, setVenue] = useState(null);
+//   const [availabilityChecked, setAvailabilityChecked] = useState(false);
+
+//   useEffect(() => {
+//     const fetchVenueDetails = async () => {
+//       try {
+//         const response = await fetch(`http://127.0.0.1:8000/venue/${title}/`);
+//         if (!response.ok) {
+//           throw new Error('Failed to fetch venue details');
+//         }
+//         const data = await response.json();
+//         setVenue(data);
+//       } catch (error) {
+//         console.error('Error fetching venue details:', error);
+//       }
+//     };
+
+//     fetchVenueDetails();
+//   }, [title]);
+
+//   return (
+//     <div>
+//       {/* Navbar component */}
+//       <Navbar />
+//       {/* Conditional rendering of venue details */}
+//       {venue && (
+//         <div className="max-w-screen-lg mx-auto px-4 sm:px-8 py-8 sm:py-12">
+//           {/* Render venue details here */}
+//           <h2 className="text-3xl font-bold">{venue.title}</h2>
+//           <p className="text-gray-700">{venue.description}</p>
+//           <p className="text-red-600 font-semibold">{`$${venue.payment}`}</p>
+//           {/* Add more rendering logic for other venue details */}
+//         </div>
+//       )}
+//       {/* Footer component */}
+//       <Footer />
+//     </div>
+//   );
+// };
+
+// export default VenueView;
+
+
+
+
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -6,20 +67,32 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Navbar from './NavBar/Navbar';
 import Footer from './Footer/Footer';
-import img1 from '../images/venue1.jpg';
-import img2 from '../images/view.jpeg';
-import img3 from '../images/venue2.jpg';
+import { useParams } from 'react-router-dom';
 
 const VenueView = () => {
+  const { title } = useParams();
+  console.log(title);
+  const [venue, setVenue] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
   const [availabilityChecked, setAvailabilityChecked] = useState(false);
 
-  // Sample images for the slider
-  const images = [`${img1}`, `${img2}`, `${img3}`];
+  useEffect(() => {
+    const fetchVenueDetails = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/venue/${title}/`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch venue details');
+        }
+        const data = await response.json();
+        setVenue(data);
+      } catch (error) {
+        console.error('Error fetching venue details:', error);
+      }
+    };
 
-  // Sample time slots
-  const timeSlots = ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'];
+    fetchVenueDetails();
+  }, [title]);
 
   const handleCheckAvailability = () => {
     // Add logic here to check availability based on selected date and time slot
@@ -27,14 +100,18 @@ const VenueView = () => {
     setAvailabilityChecked(true);
   };
 
+  if (!venue) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <Navbar />
       <div className="max-w-screen-lg mx-auto px-4 sm:px-8 py-8 sm:py-12">
         <div className="mb-6">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Venue Name</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">{venue.title}</h2>
           <Slider autoplay dots>
-            {images.map((image, index) => (
+            {venue.images.map((image, index) => (
               <div key={index}>
                 <img src={image} alt={`Slide ${index}`} className="w-full h-80 sm:h-96 object-cover rounded-lg" />
               </div>
@@ -43,17 +120,9 @@ const VenueView = () => {
         </div>
         <div className="mb-6">
           <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4">About</h3>
-          <p className="text-gray-700 mb-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vehicula tortor ac metus scelerisque, sit amet
-            condimentum velit ultricies. Proin hendrerit, dui sed mattis efficitur, arcu nisi lacinia libero, et rutrum
-            sapien urna ut nunc.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vehicula tortor ac metus scelerisque, sit amet
-            condimentum velit ultricies. Proin hendrerit, dui sed mattis efficitur, arcu nisi lacinia libero, et rutrum
-            sapien urna ut nunc.
-          </p>
+          <p className="text-gray-700 mb-4">{venue.description}</p>
           <ul className="list-disc pl-6 mb-4">
-            <li className="text-black"><strong>Capacity:</strong> 100 people</li>
-            <li className="text-black"><strong>Location:</strong> Example City, Example Country</li>
+            <li className="text-black"><strong>Location:</strong> {venue.location}</li>
           </ul>
         </div>
         <div className="mb-6 flex flex-col sm:flex-row items-center">
@@ -71,7 +140,7 @@ const VenueView = () => {
             onChange={(e) => setSelectedTimeSlot(e.target.value)}
           >
             <option value="">Select Time Slot</option>
-            {timeSlots.map((timeSlot, index) => (
+            {venue.timeSlots.map((timeSlot, index) => (
               <option key={index} value={timeSlot}>{timeSlot}</option>
             ))}
           </select>
