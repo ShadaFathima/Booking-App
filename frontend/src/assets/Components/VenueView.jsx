@@ -153,6 +153,7 @@ const VenueView = ({ isLoggedIn }) => {
               <AiOutlineClose size={24} />
             </button>
             <BookingForm
+              venueDetails={venue}
               contact={contact}
               onContactChange={handleContactChange}
               contactError={contactError}

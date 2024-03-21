@@ -1,56 +1,72 @@
-/* eslint-disable react/prop-types */
-import { useState } from 'react';
+// BookingForm.jsx
 
-const BookingForm = ({ onSubmit }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    contact: '',
-    comment: '',
-  });
-  const [errors, setErrors] = useState({});
+import React, { useState } from 'react';
+import axios from 'axios';
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
+const BookingForm = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        contact: '',
+        comment: '',
     });
-    // Clear error message when user starts typing
-    setErrors({
-      ...errors,
-      [e.target.name]: '',
-    });
-  };
+    const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Basic validation
-    const { name, email, contact } = formData;
-    const errors = {};
-    if (!name.trim()) {
-      errors.name = 'Name is required';
-    }
-    if (!email.trim()) {
-      errors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.email = 'Invalid email format';
-    }
-    if (!contact.trim()) {
-      errors.contact = 'Contact details are required';
-    } else if (!/^\d{10}$/.test(contact)) {
-      errors.contact = 'Contact number must be 10 digits';
-    }
-    // If there are errors, set them and prevent form submission
-    if (Object.keys(errors).length > 0) {
-      setErrors(errors);
-      return;
-    }
-    // If no errors, submit the form
-    onSubmit(formData);
-  };
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+        // Clear error message when user starts typing
+        setErrors({
+            ...errors,
+            [e.target.name]: '',
+        });
+    };
 
-  return (
-    <form onSubmit={handleSubmit} className="max-w-screen-lg mx-auto px-4 sm:px-8 py-8 sm:py-12">
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        // Basic validation
+        const { name, email, contact } = formData;
+        const errors = {};
+        if (!name.trim()) {
+            errors.name = 'Name is required';
+        }
+        if (!email.trim()) {
+            errors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            errors.email = 'Invalid email format';
+        }
+        if (!contact.trim()) {
+            errors.contact = 'Contact details are required';
+        } else if (!/^\d{10}$/.test(contact)) {
+            errors.contact = 'Contact number must be 10 digits';
+        }
+        // If there are errors, set them and prevent form submission
+        if (Object.keys(errors).length > 0) {
+            setErrors(errors);
+            return;
+        }
+        // If no errors, submit the form
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/submit-booking/', formData);
+            if (response.status === 200) {
+                alert('Booking submitted successfully');
+                setFormData({
+                    name: '',
+                    email: '',
+                    contact: '',
+                    comment: '',
+                });
+            }
+        } catch (error) {
+            console.error('Error submitting booking:', error);
+            alert('An error occurred while submitting booking');
+        }
+    };
+
+    return (
+      <form onSubmit={handleSubmit} className="max-w-screen-lg mx-auto px-4 sm:px-8 py-8 sm:py-12">
       <div className="mb-4">
         <label htmlFor="name" className="block font-semibold mb-1">Name:</label>
         <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="border border-gray-300 rounded-lg px-4 py-2 w-full" />
@@ -74,5 +90,4 @@ const BookingForm = ({ onSubmit }) => {
     </form>
   );
 };
-
 export default BookingForm;

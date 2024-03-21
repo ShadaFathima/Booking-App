@@ -25,7 +25,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/venue/:title" element={<VenueView isLoggedIn={isLoggedIn} />} />
         <Route path="/venuelist" element={<VenueList isLoggedIn={isLoggedIn}/>}></Route>
-        <Route path="/profile" element={<UserProfile />}></Route>
+        <Route path="/profile" element={<UserProfile isLoggedIn={isLoggedIn}/>}></Route>
         <Route path="/userbookings" element={<BookingPage />}></Route>
         <Route path="/adminview" element={<AdminView />}></Route>
       </Routes>
