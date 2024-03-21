@@ -1,7 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./venue.css";
 import { Link } from "react-router-dom";
+import Footer from "./Footer/Footer";
+import Navbar from "./NavBar/Navbar";
 
 const VenueCard = ({ image, title, description, payment }) => {
   return (
@@ -15,7 +18,7 @@ const VenueCard = ({ image, title, description, payment }) => {
           <p className="text-gray-700 mb-4">{description}</p>
           <p className="text-red-600 font-semibold">{`$${payment}`}</p>
           <Link
-            to="/venue/:title"
+            to={`/venue/${title}`}
             className="block mt-4 text-black hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300"
           >
             Read more
@@ -33,7 +36,7 @@ VenueCard.propTypes = {
   payment: PropTypes.number.isRequired,
 };
 
-const VenueList = () => {
+const VenueList = ({isLoggedIn}) => {
   const [venues, setVenues] = useState([]);
 
   useEffect(() => {
@@ -53,18 +56,22 @@ const VenueList = () => {
   }, []);
 
   return (
+    <div>
+      <Navbar  isLoggedIn={isLoggedIn} />
     <div className=" bg-orange-50">
       <div className="grid grid-cols-4 gap-8 py-10 bg-orange-50 mx-20">
         {venues.map((venue, index) => (
           <VenueCard
-            key={index}
-            image={venue.image}
-            title={venue.title}
-            description={venue.description}
-            payment={parseFloat(venue.payment)}
+          key={index}
+          image={venue.image}
+          title={venue.title}
+          description={venue.description}
+          payment={parseFloat(venue.payment)}
           />
-        ))}
+          ))}
       </div>
+    </div>
+    <Footer />
     </div>
   );
 };
