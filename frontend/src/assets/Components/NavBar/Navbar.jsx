@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import cart from "../../images/cart.png";
@@ -5,8 +6,8 @@ import avatar from "../../images/user.png";
 import search from "../../images/search.png";
 import './Navbar.css'; // Import CSS file for custom styles
 
-const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+const Navbar = ({isLoggedIn}) => {
+  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -15,7 +16,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     // Logic for handling logout
-    setIsLoggedIn(false);
+    // setIsLoggedIn(false);
     setIsMenuOpen(false); // Close the menu after logout
   };
 
@@ -42,7 +43,11 @@ const Navbar = () => {
         <>
          <Link to="/userbookings"> <img src={cart} alt="Cart" className="w-7 ml-6 cursor-pointer" /></Link>
           <div className="relative">
-            <img src={avatar} alt="Avatar" className="w-7 ml-6 cursor-pointer" onClick={toggleMenu} />
+            <img src={avatar} alt="Avatar" className="w-7 ml-6 cursor-pointer" onClick={(e) => {
+                e.preventDefault(); // Prevent default behavior
+                toggleMenu(); // Toggle the menu
+              }}
+               />
             {isMenuOpen && (
               <div className="dropdown-menu absolute top-full right-0 bg-white border border-gray-200 rounded-lg shadow-md mt-2">
                 <Link to="/profile" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Your Profile</Link>

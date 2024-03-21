@@ -1,9 +1,10 @@
 // LoginForm.jsx
-
-import { Link } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import { Link,useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const LoginForm = () => {
+const LoginForm = ({setIsLoggedIn}) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: ""
@@ -24,12 +25,15 @@ const LoginForm = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
+        
       });
       const data = await response.json();
       if (data.success) {
-        window.location.href = '/'; // Redirect to the specified URL on successful login
+        setIsLoggedIn(true);
+        navigate('/'); 
+        // window.location.href = '/';
       } else {
-        setError(data.message); // Set error message if login is unsuccessful
+        setError(data.message);
       }
     } catch (error) {
       console.error('Error:', error);

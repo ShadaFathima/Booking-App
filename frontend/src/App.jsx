@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./assets/MainPage";
 import ContactPage from "./assets/ContactPage";
@@ -11,15 +12,19 @@ import AdminView from "./assets/Components/AdminView";
 
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  console.log(isLoggedIn)
+  
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/login" element={<LoginForm />}></Route>
+        <Route path="/" element={<MainPage isLoggedIn={isLoggedIn}/>} />
+        <Route path="/contact" element={<ContactPage isLoggedIn={isLoggedIn}/>} />
+        <Route path="/login" element={<LoginForm isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}></Route>
         <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/venue/:title" element={<VenueView />} />
-        <Route path="/venuelist" element={<VenueList />}></Route>
+        <Route path="/venue/:title" element={<VenueView isLoggedIn={isLoggedIn} />} />
+        <Route path="/venuelist" element={<VenueList isLoggedIn={isLoggedIn}/>}></Route>
         <Route path="/profile" element={<UserProfile />}></Route>
         <Route path="/userbookings" element={<BookingPage />}></Route>
         <Route path="/adminview" element={<AdminView />}></Route>

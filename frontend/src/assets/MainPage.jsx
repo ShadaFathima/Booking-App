@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import AboutUs from "./Components/AboutUs/About";
 import Banner from "./Components/Banner/Banner";
 import Feedback from "./Components/Feedback";
@@ -11,10 +12,10 @@ import VenueSlider from "./Components/VenueSlider";
 // import PaymentForm from "./Components/PaymentForm";
 // import VenueCard from "./Components/VenueSlider";
 
-const MainPage = () => {
+const MainPage = ({isLoggedIn}) => {
   return (
     <div>
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn} />
       
       <Banner />
       <VenueSlider />
