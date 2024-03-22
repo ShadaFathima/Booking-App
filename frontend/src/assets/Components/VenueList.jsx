@@ -16,7 +16,7 @@ const VenueCard = ({ image, title, description, payment }) => {
         <div className="p-4">
           <h5 className="text-lg font-bold text-center mb-2">{title}</h5>
           <p className="text-gray-700 mb-4">{description}</p>
-          <p className="text-red-600 font-semibold">{`$${payment}`}</p>
+          <p className="text-red-600 font-semibold">{`${payment}/-`}</p>
           <Link
             to={`/venue/${title}`}
             className="block mt-4 text-black hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300"

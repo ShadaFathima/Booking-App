@@ -19,7 +19,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainPage isLoggedIn={isLoggedIn}/>} />
+        <Route path="/" element={<MainPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} />
         <Route path="/contact" element={<ContactPage isLoggedIn={isLoggedIn}/>} />
         <Route path="/login" element={<LoginForm isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}></Route>
         <Route path="/signup" element={<Signup />}></Route>
