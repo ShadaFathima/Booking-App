@@ -36,7 +36,7 @@ VenueCard.propTypes = {
   payment: PropTypes.number.isRequired,
 };
 
-const VenueList = ({isLoggedIn}) => {
+const VenueList = ({isLoggedIn,setIsLoggedIn}) => {
   const [venues, setVenues] = useState([]);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const VenueList = ({isLoggedIn}) => {
 
   return (
     <div>
-      <Navbar  isLoggedIn={isLoggedIn} />
+      <Navbar  isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
     <div className=" bg-orange-50">
       <div className="grid grid-cols-4 gap-8 py-10 bg-orange-50 mx-20">
         {venues.map((venue, index) => (

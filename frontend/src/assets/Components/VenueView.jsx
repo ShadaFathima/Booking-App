@@ -14,7 +14,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import BookingForm from './BookingForm';
 import './venueview.css';
 
-const VenueView = ({ isLoggedIn }) => {
+const VenueView = ({ isLoggedIn, setIsLoggedIn}) => {
   const { title } = useParams();
   const [venue, setVenue] = useState(null);
   const [startDate, setStartDate] = useState(null);
@@ -88,7 +88,7 @@ const VenueView = ({ isLoggedIn }) => {
 
   return (
     <div>
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       {venue ? (
         <div className="max-w-screen-lg mx-auto px-4 sm:px-8 py-8 sm:py-12">
           <div className="mb-6">
