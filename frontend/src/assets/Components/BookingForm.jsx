@@ -1,10 +1,8 @@
-// BookingForm.jsx
-
 import React, { useState } from 'react';
 import axios from 'axios';
+import { format } from 'date-fns';
 
-
-const BookingForm = ({ selectedVenue,selectedDate,selectedTimeSlot }) => { // Pass selectedVenue as a prop
+const BookingForm = ({ selectedVenue, selectedDate, selectedTimeSlot }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -51,10 +49,12 @@ const BookingForm = ({ selectedVenue,selectedDate,selectedTimeSlot }) => { // Pa
     // If no errors, submit the form
     try {
       // Include venue title, selected date, and selected time in formData
+      const formattedDate = format(selectedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", { timeZone: 'UTC' });
+
       const bookingData = {
         ...formData,
         venueTitle: selectedVenue?.title, // Use optional chaining to handle potential undefined selectedVenue
-        selectedDate: selectedDate.toISOString().slice(0, 10),// Assuming selectedDate is available in your component's state
+        selectedDate: formattedDate.slice(0, 10), // Slice to get only date part
         selectedTimeSlot: selectedTimeSlot, // Assuming selectedTimeSlot is available in your component's state
       };
       console.log('Data to be sent to backend:', bookingData);
@@ -71,13 +71,12 @@ const BookingForm = ({ selectedVenue,selectedDate,selectedTimeSlot }) => { // Pa
       }
     } catch (error) {
       console.error('Error submitting booking:', error);
-      alert('The venue has already booked ! please choose another date.');
+      alert('The venue is Unavailable . please choose a different date or time. ');
     }
   };
 
-  
-    return (
-      <form onSubmit={handleSubmit} className="max-w-screen-lg mx-auto px-4 sm:px-8 py-8 sm:py-12">
+  return (
+    <form onSubmit={handleSubmit} className="max-w-screen-lg mx-auto px-4 sm:px-8 py-8 sm:py-12">
       <div className="mb-4">
         <label htmlFor="name" className="block font-semibold mb-1">Name:</label>
         <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="border border-gray-300 rounded-lg px-4 py-2 w-full" />
@@ -101,4 +100,5 @@ const BookingForm = ({ selectedVenue,selectedDate,selectedTimeSlot }) => { // Pa
     </form>
   );
 };
+
 export default BookingForm;
