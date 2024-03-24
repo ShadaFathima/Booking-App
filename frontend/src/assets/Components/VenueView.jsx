@@ -155,8 +155,12 @@ const VenueView = ({ isLoggedIn }) => {
             </button>
           </div>
           {availabilityChecked && (
-            <p className="text-green-500 mb-4">Availability checked. Display availability status here.</p>
-          )}
+  <p className="text-green-500 mb-4">
+    {availabilityChecked && venue && venue.available
+      ? 'Venue is available for the selected date and time slot. You can proceed with booking.'
+      : 'Venue is not available for the selected date and time slot. Please choose another date or time slot.'}
+  </p>
+)}
           <div className="flex justify-end">
             <button onClick={handleBookNowClick} className="bg-black text-white px-10 py-4 rounded-lg">
               Book Now
