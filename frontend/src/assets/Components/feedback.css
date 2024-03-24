@@ -10,7 +10,7 @@
 .feedback-section p {
   margin-top: 2rem;
   margin-bottom: 20px;
-  color: #ffffff;
+  color: #040303;
 }
 
 .feedback-form {
@@ -29,7 +29,7 @@
   border: 0;
   outline: 0;
   border-radius: 4rem;
-  color: #000
+  color: #000;
 }
 
 .submit-button {

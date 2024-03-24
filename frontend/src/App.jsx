@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./assets/MainPage";
 import ContactPage from "./assets/ContactPage";
@@ -13,7 +13,18 @@ import AdminSignupForm from "./assets/Components/AdminSignupForm";
 import AdminLoginForm from "./assets/Components/AdminLoginForm";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  //   console.log(isLoggedIn);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true"
+  );
+
+  // Update local storage when isLoggedIn state changes
+  useEffect(() => {
+    localStorage.setItem("isLoggedIn", isLoggedIn);
+  }, [isLoggedIn]);
 
   console.log(isLoggedIn);
 
@@ -28,7 +39,12 @@ const App = () => {
         />
         <Route
           path="/contact"
-          element={<ContactPage isLoggedIn={isLoggedIn} />}
+          element={
+            <ContactPage
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          }
         />
         <Route
           path="/login"
