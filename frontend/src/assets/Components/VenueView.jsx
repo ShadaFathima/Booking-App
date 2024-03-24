@@ -15,40 +15,36 @@
   import './venueview.css';
   import axios from 'axios';
 
-  const VenueView = ({ isLoggedIn }) => {
-    const { title } = useParams();
-    const [venue, setVenue] = useState(null);
-    const [startDate, setStartDate] = useState(null);
-    const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
-    const [availabilityChecked, setAvailabilityChecked] = useState(false);
-    const [showBookingForm, setShowBookingForm] = useState(false);
-    const [contact, setContact] = useState('');
-    const [contactError, setContactError] = useState('');
-    const [selectedVenue, setSelectedVenue] = useState(null);
+const VenueView = ({ isLoggedIn }) => {
+  const { title } = useParams();
+  const [venue, setVenue] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
+  const [availabilityChecked, setAvailabilityChecked] = useState(false);
+  const [showBookingForm, setShowBookingForm] = useState(false);
+  const [contact, setContact] = useState('');
+  const [contactError, setContactError] = useState('');
 
-    
-    useEffect(() => {
-      const fetchVenueDetails = async () => {
-        try {
-          const response = await fetch(`http://127.0.0.1:8000/venue/${encodeURIComponent(title)}`);
-          if (!response.ok) {
-            throw new Error('Failed to fetch venue details');
-          }
-          const data = await response.json();
-          const venueData = {
-            title: data.title,
-            description: data.description,
-            payment: data.payment,
-            images: [data.image1, data.image2, data.image3],
-            location: data.location,
-            map_iframe: data.map_iframe,
-          };
-          setVenue(venueData);
-          setSelectedVenue(venueData); // Set selectedVenue when venue data is fetched
-        } catch (error) {
-          console.error('Error fetching venue details:', error);
+  useEffect(() => {
+    const fetchVenueDetails = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/venue/${encodeURIComponent(title)}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch venue details');
         }
-      };
+        const data = await response.json();
+        setVenue({
+          title: data.title,
+          description: data.description,
+          payment: data.payment,
+          images: [data.image1, data.image2, data.image3],
+          location: data.location,
+          map_iframe: data.map_iframe,
+        });
+      } catch (error) {
+        console.error('Error fetching venue details:', error);
+      }
+    };
 
       fetchVenueDetails();
     }, [title])
@@ -114,68 +110,64 @@
       handleCloseBookingForm();
     };
 
-    return (
-      <div>
-        <Navbar isLoggedIn={isLoggedIn} />
-        {venue ? (
-          <div className="max-w-screen-lg mx-auto px-4 sm:px-8 py-8 sm:py-12">
-            <div className="mb-6">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">{venue.title}</h2>
-              <Slider autoplay dots>
-                {venue.images.map((image, index) => (
-                  <div key={index}>
-                    <img src={image} alt={`Slide ${index}`} className="w-full h-80 sm:h-96 object-cover rounded-lg" />
-                  </div>
-                ))}
-              </Slider>
-            </div>
-            <div className="mb-6">
-              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4">About</h3>
-              <p className="text-gray-700">{venue.description}</p>
-              <ul className="list-disc pl-6 mb-4">
-                <li className="text-black"><strong>Location:</strong> {venue.location}</li>
-              </ul>
-            </div>
-            <div className="mb-6 flex flex-col sm:flex-row items-center">
-              <strong className="mb-4 sm:mb-0 mr-4">Check Availability</strong>
-              <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                className="border border-gray-300 rounded-lg px-4 py-2 mb-4 sm:mb-0 mr-4"
-                placeholderText="Select Date"
-                minDate={new Date()}
-              />
-              <select
-                className="border border-gray-300 rounded-lg px-4 py-2 mb-4 sm:mb-0 mr-4"
-                value={selectedTimeSlot}
-                onChange={(e) => setSelectedTimeSlot(e.target.value)}
-              >
-                <option value="">Select Time Slot</option>
-                <option value="10am-3pm">10am - 3pm</option>
-                <option value="5pm-10pm">5pm - 10pm</option>
-              </select>
-              <button onClick={handleCheckAvailability} className="bg-black text-white px-4 py-2 rounded-lg">
-                Check
-              </button>
-            </div>
-            {availabilityChecked && (
-         <p className="text-green-500 mb-4">
-            {availabilityChecked && venue && venue.available
-             ? 'Venue is available for the selected date and time slot. You can proceed with booking.'
-              : 'Venue is not available for the selected date and time slot. Please choose another date or time slot.'}
-            </p>
-            )}
-            <div className="flex justify-end">
-              <button onClick={handleBookNowClick} className="bg-black text-white px-10 py-4 rounded-lg">
-                Book Now
-              </button>
-            </div>
+  return (
+    <div>
+      <Navbar isLoggedIn={isLoggedIn} />
+      {venue ? (
+        <div className="max-w-screen-lg mx-auto px-4 sm:px-8 py-8 sm:py-12">
+          <div className="mb-6">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">{venue.title}</h2>
+            <Slider autoplay dots>
+              {venue.images.map((image, index) => (
+                <div key={index}>
+                  <img src={image} alt={`Slide ${index}`} className="w-full h-80 sm:h-96 object-cover rounded-lg" />
+                </div>
+              ))}
+            </Slider>
           </div>
-        ) : (
-          <div>Loading...</div>
-        )}
-        <Footer />
-        {showBookingForm && (
+          <div className="mb-6">
+            <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4">About</h3>
+            <p className="text-gray-700">{venue.description}</p>
+            <ul className="list-disc pl-6 mb-4">
+              <li className="text-black"><strong>Location:</strong> {venue.location}</li>
+            </ul>
+          </div>
+          <div className="mb-6 flex flex-col sm:flex-row items-center">
+            <strong className="mb-4 sm:mb-0 mr-4">Check Availability</strong>
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              className="border border-gray-300 rounded-lg px-4 py-2 mb-4 sm:mb-0 mr-4"
+              placeholderText="Select Date"
+              minDate={new Date()}
+            />
+            <select
+              className="border border-gray-300 rounded-lg px-4 py-2 mb-4 sm:mb-0 mr-4"
+              value={selectedTimeSlot}
+              onChange={(e) => setSelectedTimeSlot(e.target.value)}
+            >
+              <option value="">Select Time Slot</option>
+              <option value="10am-3pm">10am - 3pm</option>
+              <option value="5pm-10pm">5pm - 10pm</option>
+            </select>
+            <button onClick={handleCheckAvailability} className="bg-black text-white px-4 py-2 rounded-lg">
+              Check
+            </button>
+          </div>
+          {availabilityChecked && (
+            <p className="text-green-500 mb-4">Availability checked. Display availability status here.</p>
+          )}
+          <div className="flex justify-end">
+            <button onClick={handleBookNowClick} className="bg-black text-white px-10 py-4 rounded-lg">
+              Book Now
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div>Loading...</div>
+      )}
+      <Footer />
+      {showBookingForm && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 overflow-hidden">
           <div className="bg-white p-8 rounded-lg relative w-96">
             <button

@@ -6,3 +6,9 @@
 #card {
   margin: 0 20px 20px;
 }
+
+
+/* Hide horizontal scrollbar */
+.flex::-webkit-scrollbar {
+  display: none;
+}

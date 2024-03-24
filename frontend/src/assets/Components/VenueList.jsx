@@ -16,7 +16,7 @@ const VenueCard = ({ image, title, description, payment }) => {
         <div className="p-4">
           <h5 className="text-lg font-bold text-center mb-2">{title}</h5>
           <p className="text-gray-700 mb-4">{description}</p>
-          <p className="text-red-600 font-semibold">{`$${payment}`}</p>
+          <p className="text-red-600 font-semibold">{`${payment}/-`}</p>
           <Link
             to={`/venue/${title}`}
             className="block mt-4 text-black hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300"
@@ -36,7 +36,7 @@ VenueCard.propTypes = {
   payment: PropTypes.number.isRequired,
 };
 
-const VenueList = ({isLoggedIn}) => {
+const VenueList = ({isLoggedIn,setIsLoggedIn}) => {
   const [venues, setVenues] = useState([]);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const VenueList = ({isLoggedIn}) => {
 
   return (
     <div>
-      <Navbar  isLoggedIn={isLoggedIn} />
+      <Navbar  isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
     <div className=" bg-orange-50">
       <div className="grid grid-cols-4 gap-8 py-10 bg-orange-50 mx-20">
         {venues.map((venue, index) => (

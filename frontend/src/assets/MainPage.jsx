@@ -12,10 +12,10 @@ import VenueSlider from "./Components/VenueSlider";
 // import PaymentForm from "./Components/PaymentForm";
 // import VenueCard from "./Components/VenueSlider";
 
-const MainPage = ({isLoggedIn}) => {
+const MainPage = ({isLoggedIn,setIsLoggedIn}) => {
   return (
     <div>
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       
       <Banner />
       <VenueSlider />

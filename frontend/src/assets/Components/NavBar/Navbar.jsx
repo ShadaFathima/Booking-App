@@ -6,7 +6,7 @@ import avatar from "../../images/user.png";
 import search from "../../images/search.png";
 import './Navbar.css'; // Import CSS file for custom styles
 
-const Navbar = ({isLoggedIn}) => {
+const Navbar = ({isLoggedIn,setIsLoggedIn}) => {
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -16,7 +16,7 @@ const Navbar = ({isLoggedIn}) => {
 
   const handleLogout = () => {
     // Logic for handling logout
-    // setIsLoggedIn(false);
+    setIsLoggedIn(false);
     setIsMenuOpen(false); // Close the menu after logout
   };
 
