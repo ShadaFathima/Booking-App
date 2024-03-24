@@ -3,12 +3,12 @@ import axios from "axios";
 import Footer from "./Footer/Footer";
 import Navbar from "./NavBar/Navbar";
 
-const UserProfile = ({isLoggedIn}) => {
+const UserProfile = ({ isLoggedIn }) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     // Fetch user data from the backend
-    axios.get("http://127.0.0.1:8000/api/user-profile/") // Update the URL accordingly
+    axios.post("http://127.0.0.1:8000/api/user-profile/") // Update the URL accordingly
       .then(response => {
         setUserData(response.data.user_profile); // Accessing user_profile key
       })
@@ -20,7 +20,7 @@ const UserProfile = ({isLoggedIn}) => {
   useEffect(() => {
     if (userData) {
       // Fetch user-specific bookings from the backend
-      axios.get(`http://127.0.0.1:8000/api/booked-venues/${userData.username}`) // Update the URL accordingly
+      axios.post(`http://127.0.0.1:8000/api/booked-venues/`, { username: userData.username }) // Update the URL accordingly
         .then(response => {
           setUserData(prevState => ({
             ...prevState,

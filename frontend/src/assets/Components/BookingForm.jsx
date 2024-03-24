@@ -3,68 +3,79 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const BookingForm = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        contact: '',
-        comment: '',
+
+const BookingForm = ({ selectedVenue,selectedDate,selectedTimeSlot }) => { // Pass selectedVenue as a prop
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    contact: '',
+    comment: '',
+  });
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
-    const [errors, setErrors] = useState({});
+    // Clear error message when user starts typing
+    setErrors({
+      ...errors,
+      [e.target.name]: '',
+    });
+  };
 
-    const handleChange = (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Basic validation
+    const { name, email, contact } = formData;
+    const errors = {};
+    if (!name.trim()) {
+      errors.name = 'Name is required';
+    }
+    if (!email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = 'Invalid email format';
+    }
+    if (!contact.trim()) {
+      errors.contact = 'Contact details are required';
+    } else if (!/^\d{10}$/.test(contact)) {
+      errors.contact = 'Contact number must be 10 digits';
+    }
+    // If there are errors, set them and prevent form submission
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
+    }
+    // If no errors, submit the form
+    try {
+      // Include venue title, selected date, and selected time in formData
+      const bookingData = {
+        ...formData,
+        venueTitle: selectedVenue?.title, // Use optional chaining to handle potential undefined selectedVenue
+        selectedDate: selectedDate.toISOString().slice(0, 10),// Assuming selectedDate is available in your component's state
+        selectedTimeSlot: selectedTimeSlot, // Assuming selectedTimeSlot is available in your component's state
+      };
+      console.log('Data to be sent to backend:', bookingData);
+
+      const response = await axios.post('http://127.0.0.1:8000/submit-booking/', bookingData);
+      if (response.status === 200) {
+        alert('Booking submitted successfully');
         setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
+          name: '',
+          email: '',
+          contact: '',
+          comment: '',
         });
-        // Clear error message when user starts typing
-        setErrors({
-            ...errors,
-            [e.target.name]: '',
-        });
-    };
+      }
+    } catch (error) {
+      console.error('Error submitting booking:', error);
+      alert('The venue has already booked ! please choose another date.');
+    }
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // Basic validation
-        const { name, email, contact } = formData;
-        const errors = {};
-        if (!name.trim()) {
-            errors.name = 'Name is required';
-        }
-        if (!email.trim()) {
-            errors.email = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(email)) {
-            errors.email = 'Invalid email format';
-        }
-        if (!contact.trim()) {
-            errors.contact = 'Contact details are required';
-        } else if (!/^\d{10}$/.test(contact)) {
-            errors.contact = 'Contact number must be 10 digits';
-        }
-        // If there are errors, set them and prevent form submission
-        if (Object.keys(errors).length > 0) {
-            setErrors(errors);
-            return;
-        }
-        // If no errors, submit the form
-        try {
-            const response = await axios.post('http://127.0.0.1:8000/submit-booking/', formData);
-            if (response.status === 200) {
-                alert('Booking submitted successfully');
-                setFormData({
-                    name: '',
-                    email: '',
-                    contact: '',
-                    comment: '',
-                });
-            }
-        } catch (error) {
-            console.error('Error submitting booking:', error);
-            alert('An error occurred while submitting booking');
-        }
-    };
-
+  
     return (
       <form onSubmit={handleSubmit} className="max-w-screen-lg mx-auto px-4 sm:px-8 py-8 sm:py-12">
       <div className="mb-4">
