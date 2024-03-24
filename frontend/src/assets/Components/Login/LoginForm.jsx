@@ -19,7 +19,7 @@ const LoginForm = ({setIsLoggedIn}) => {
     e.preventDefault();
     console.log(formData);
     try {
-      const response = await fetch('http://127.0.0.1:8000/login/', {
+      const response = await fetch('http://127.0.0.1:8000/accounts/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ const LoginForm = ({setIsLoggedIn}) => {
       const data = await response.json();
       if (data.success) {
         setIsLoggedIn(true);
-        navigate('/'); 
+        navigate('/', { state: { fetchUserProfile: true } }); 
         // window.location.href = '/';
       } else {
         setError(data.message);

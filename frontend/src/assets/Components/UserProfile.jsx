@@ -3,28 +3,42 @@ import axios from "axios";
 import Footer from "./Footer/Footer";
 import Navbar from "./NavBar/Navbar";
 
-const UserProfile = ({ isLoggedIn }) => {
+const UserProfile = ({ isLoggedIn, loggedInUsername }) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    // Fetch user data from the backend
-    axios.post("http://127.0.0.1:8000/api/user-profile/") // Update the URL accordingly
-      .then(response => {
-        setUserData(response.data.user_profile); // Accessing user_profile key
+    if (isLoggedIn) {
+      console.log("Fetching user data for:", loggedInUsername);
+      // Fetch user data from the backend
+      axios.post("http://127.0.0.1:8000/api/user-profile/", { username: loggedInUsername }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}` // Include the authentication token
+        }
       })
-      .catch(error => {
-        console.error("Error fetching user data:", error);
-      });
-  }, []);
+        .then(response => {
+          console.log("User data:", response.data.user_profile);
+          setUserData(response.data.user_profile);
+        })
+        .catch(error => {
+          console.error("Error fetching user data:", error);
+        });
+    }
+  }, [isLoggedIn, loggedInUsername]);
 
   useEffect(() => {
-    if (userData) {
+    if (userData && userData.username) {
+      console.log("Fetching bookings for:", userData.username);
       // Fetch user-specific bookings from the backend
-      axios.post(`http://127.0.0.1:8000/api/booked-venues/`, { username: userData.username }) // Update the URL accordingly
+      axios.post("http://127.0.0.1:8000/api/user-bookings/", { username: userData.username }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
         .then(response => {
+          console.log("User bookings:", response.data.user_bookings);
           setUserData(prevState => ({
             ...prevState,
-            bookings: response.data.booked_venues // Accessing booked_venues key
+            bookings: response.data.user_bookings
           }));
         })
         .catch(error => {
@@ -32,6 +46,8 @@ const UserProfile = ({ isLoggedIn }) => {
         });
     }
   }, [userData]);
+
+  console.log("Rendering UserProfile component with userData:", userData);
 
   return (
     <div>
@@ -44,22 +60,6 @@ const UserProfile = ({ isLoggedIn }) => {
               <div className="mb-4">
                 <strong>Username:</strong> {userData.username}
               </div>
-              <div className="mb-4">
-                <strong>Email:</strong> {userData.email}
-              </div>
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold mb-2">Your Bookings</h3>
-                <ul>
-                  {userData.bookings.map((booking) => (
-                    <li key={booking.id} className="mb-2">
-                      <strong>Auditorium:</strong> {booking.auditorium}<br />
-                      <strong>Date:</strong> {booking.date}<br />
-                      <strong>Time:</strong> {booking.time}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {/* Add more user information fields as needed */}
             </>
           )}
         </div>
