@@ -5,10 +5,13 @@ import cart from "../../images/cart.png";
 import avatar from "../../images/user.png";
 import search from "../../images/search.png";
 import "./Navbar.css"; // Import CSS file for custom styles
-// import { Link, animateScroll as scroll } from "react-scroll";
 
-const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn, aboutUsRef }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const scrollToAbout = (ref) => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -20,9 +23,6 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
     setIsMenuOpen(false); // Close the menu after logout
   };
 
-  // const scrollToAbout = () => {
-  //   scroll.scrollToBottom();
-  // };
 
   return (
     <div className="navbar bg-black text-white py-10 px-8 md:px-12 lg:px-24 xl:px-32 flex justify-between items-center relative">
@@ -38,20 +38,13 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
             VENUES
           </Link>
         </li>
-        {/* <li className="mx-8 text-white">
-          <Link
-          
-            activeClass="active"
-            to="about"
-            spy={true}
-            smooth={true}
-            duration={500}
-            onClick={scrollToAbout}
-          >
-            ABOUT
-          </>
-        </li> */}
-        <li className="mx-8 text-white">ABOUT</li>
+
+        <li
+          onClick={() => scrollToAbout(aboutUsRef)}
+          className="mx-8 text-white cursor-pointer"
+        >
+          ABOUT
+        </li>
         <li className="mx-8">
           <Link to="/contact" className="text-white">
             CONTACT
