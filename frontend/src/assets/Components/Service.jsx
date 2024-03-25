@@ -1,4 +1,3 @@
-import React from "react";
 import customer from "../images/customer.jpeg";
 import service from "../images/service.jpeg";
 import venueowner from "../images/venueowner.jpeg";

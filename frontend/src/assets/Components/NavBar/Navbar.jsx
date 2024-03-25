@@ -23,7 +23,6 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, aboutUsRef }) => {
     setIsMenuOpen(false); // Close the menu after logout
   };
 
-
   return (
     <div className="navbar bg-black text-white py-10 px-8 md:px-12 lg:px-24 xl:px-32 flex justify-between items-center relative">
       <h1 className="text-5xl font-bold cursor-pointer">EVENTIO</h1>
