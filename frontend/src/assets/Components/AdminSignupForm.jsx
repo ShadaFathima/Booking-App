@@ -1,56 +1,132 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from 'axios';
+import React, { useState } from "react";
 
-const AdminSignupForm = ({ onSubmit }) => {
+
+const AdminSignupForm = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password1: "",
-    password2: "",
-    venueName: "",
-    venueDescription: "",
-    venueImages: [],
-    location: "",
-    payment: "",
+    title: '',
+    description: '',
+    image1: null,
+    image2: null,
+    image3: null,
+    location: '',
+    location_link: '',
+    payment_per_hour: '',
+    name: '',
+    email: '',
+    contact: '',
+    password1: '', 
+    password2: '',
   });
-  const [passwordError, setPasswordError] = useState("");
+  const [fileData, setFileData] = useState({
+    image1: null,
+    image2: null,
+    image3: null,
+  });
+  const [passwordError, setPasswordError] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
-
+  const [submitError, setSubmitError] = useState('');
+  
+  // const csrfToken = 'HYO5wFcXA5VFtT8hFPfwR5sMfBO4JFfaYrMpLv2pG8K6I8XxYSOl3jgbUjodq4Gr';
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value, files } = e.target;
+    if (files) {
+      setFileData({
+        ...fileData,
+        [name]: files[0],
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: name === "payment_per_hour" ? (value !== "" ? value.toString() : "") : value,
+      });
+    }
     // Clear validation error when user types in the field
     setValidationErrors({
       ...validationErrors,
-      [e.target.name]: "",
+      [name]: "",
     });
   };
 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateStep1() || !validateStep2()) return;
+
+    const formDataToSend = new FormData();
+
+    // Append form data fields
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
+
+    // Append image files
+    formDataToSend.append("image1", fileData.image1);
+    formDataToSend.append("image2", fileData.image2);
+    formDataToSend.append("image3", fileData.image3);
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/save_venue/', formDataToSend);
+
+      if (response.status !== 201) {
+        throw new Error('Failed to save venue');
+      }
+
+      console.log('Venue saved successfully');
+      window.location.href = "/"; 
+    } catch (error) {
+      if (error.response && error.response.data) {
+        try {
+          // Attempt to decode response data using UTF-8
+          const decodedData = JSON.stringify(error.response.data);
+          console.error('Response data:', decodedData);
+        } catch (decodeError) {
+          console.error('Error decoding response data:', decodeError);
+        }
+      }
+      setSubmitError('Failed to save venue');
+      console.error('Error:', error);
+    }
+  };
+  
+
+
   const handleNext = () => {
+    console.log("Current step:", step); // Log the current step
     if (step === 1) {
       // Validate step 1 inputs
-      if (!validateStep1()) return;
+      console.log("Validating step 1...");
+      if (!validateStep1()) {
+        console.log("Step 1 validation failed");
+        return;
+      }
+      console.log("Step 1 validation passed");
       setStep(step + 1);
     } else {
       // Validate step 2 inputs
-      if (!validateStep2()) return;
+      console.log("Validating step 2...");
+      if (!validateStep2()) {
+        console.log("Step 2 validation failed");
+        return;
+      }
+      console.log("Step 2 validation passed");
       if (formData.password1 !== formData.password2) {
         setPasswordError("Passwords do not match");
+        console.log("Passwords do not match");
       } else {
         setPasswordError("");
+        console.log("Passwords match");
         setStep(step + 1);
       }
     }
   };
-
   const validateStep1 = () => {
     const errors = {};
     // Validate step 1 inputs
-    if (formData.username.trim() === "") {
-      errors.username = "Username is required";
+    if (formData.name.trim() === "") {
+      errors.name = "Name is required";
     }
     if (formData.email.trim() === "") {
       errors.email = "Email is required";
@@ -72,32 +148,31 @@ const AdminSignupForm = ({ onSubmit }) => {
   const validateStep2 = () => {
     const errors = {};
     // Validate step 2 inputs
-    if (formData.venueName.trim() === "") {
-      errors.venueName = "Venue name is required";
+    if (formData.title.trim() === "") {
+      errors.title = "Venue name is required";
     }
-    if (formData.venueDescription.trim() === "") {
-      errors.venueDescription = "Venue description is required";
+    if (formData.description.trim() === "") {
+      errors.description = "Venue description is required";
     }
-    if (formData.venueImages.length === 0) {
-      errors.venueImages = "Venue images are required";
+    if (!formData.image1 || !formData.image2 || !formData.image3) {
+      errors.venueImages = "Three venue images are required";
     }
     if (formData.location.trim() === "") {
       errors.location = "Location is required";
     }
-    if (formData.payment.trim() === "") {
-      errors.payment = "Payment is required";
+    if (formData.location_link.trim() === "") {
+      errors.location_link = "Location link is required";
+    }
+    if (formData.payment_per_hour.trim() === "") {
+      errors.payment_per_hour = "Payment is required";
     }
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Validate all inputs before submitting
-    if (!validateStep1() || !validateStep2()) return;
-    onSubmit(formData);
-  };
-
+  
+  
+  
   return (
     <div className="flex items-center justify-center ">
       <div className="w-full max-w-md p-6 bg-white border border-gray-200 rounded-lg shadow-lg sm:p-8 md:p-10 dark:bg-gray-800 dark:border-gray-700">
@@ -109,28 +184,28 @@ const AdminSignupForm = ({ onSubmit }) => {
             <>
               <div className="p-2">
                 <label
-                  htmlFor="username"
+                  htmlFor="name"
                   className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Username
                 </label>
                 <input
                   type="text"
-                  name="username"
-                  id="username"
-                  value={formData.username}
+                  name="name"
+                  id="name"
+                  value={formData.name}
                   onChange={handleChange}
                   className={`input-field ${
-                    validationErrors.username
+                    validationErrors.name
                       ? "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                   }`}
                   placeholder="Your Username"
                   required
                 />
-                {validationErrors.username && (
+                {validationErrors.name && (
                   <p className="text-red-500 text-sm">
-                    {validationErrors.username}
+                    {validationErrors.name}
                   </p>
                 )}
               </div>
@@ -228,87 +303,118 @@ const AdminSignupForm = ({ onSubmit }) => {
             <>
               <div className="p-2">
                 <label
-                  htmlFor="venueName"
+                  htmlFor="title"
                   className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Venue Name
                 </label>
                 <input
                   type="text"
-                  name="venueName"
-                  id="venueName"
-                  value={formData.venueName}
+                  name="title"
+                  id="title"
+                  value={formData.title}
                   onChange={handleChange}
                   className={`input-field ${
-                    validationErrors.venueName
+                    validationErrors.title
                       ? "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                   }`}
                   placeholder="Venue Name"
                   required
                 />
-                {validationErrors.venueName && (
+                {validationErrors.title && (
                   <p className="text-red-500 text-sm">
-                    {validationErrors.venueName}
+                    {validationErrors.title}
                   </p>
                 )}
               </div>
               <div className="p-2">
                 <label
-                  htmlFor="venueDescription"
+                  htmlFor="description"
                   className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Venue Description
                 </label>
                 <textarea
-                  name="venueDescription"
-                  value={formData.venueDescription}
+                  name="description"
+                  value={formData.description}
                   onChange={handleChange}
                   className={`input-field ${
-                    validationErrors.venueDescription
+                    validationErrors.description
                       ? "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                   }`}
                   placeholder="Venue Description"
                   required
                 ></textarea>
-                {validationErrors.venueDescription && (
+                {validationErrors.description && (
                   <p className="text-red-500 text-sm">
-                    {validationErrors.venueDescription}
+                    {validationErrors.description}
                   </p>
                 )}
               </div>
               <div className="p-2">
+              <label
+                htmlFor="image1"
+                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Venue Image 1
+              </label>
+              <input
+                type="file"
+                name="image1"
+                accept="image/*"
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    image1: e.target.files[0],
+                  })
+                }
+                required
+              />
+              {/* Add similar fields for venueImage2 and venueImage3 */}
+            </div>
+            <div className="p-2">
                 <label
-                  htmlFor="venueImages"
+                  htmlFor="image2"
                   className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Venue Images
+                  Venue Image 2
                 </label>
                 <input
                   type="file"
-                  name="venueImages"
+                  name="image2"
                   accept="image/*"
-                  multiple
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      venueImages: [...e.target.files],
+                      image2: e.target.files[0],
                     })
                   }
-                  className={`input-field ${
-                    validationErrors.venueImages
-                      ? "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                      : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                  }`}
                   required
                 />
-                {validationErrors.venueImages && (
-                  <p className="text-red-500 text-sm">
-                    {validationErrors.venueImages}
-                  </p>
-                )}
               </div>
+              <div className="p-2">
+                <label
+                  htmlFor="image3"
+                  className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Venue Image 3
+                </label>
+                <input
+                  type="file"
+                  name="image3"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      image3: e.target.files[0],
+                    })
+                  }
+                  required
+                />
+              </div>
+
               <div className="p-2">
                 <label
                   htmlFor="location"
@@ -336,28 +442,55 @@ const AdminSignupForm = ({ onSubmit }) => {
                 )}
               </div>
               <div className="p-2">
+              <label
+                htmlFor="location_link"
+                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Location Link
+              </label>
+              <input
+                type="url"
+                name="location_link"
+                id="location_link"
+                value={formData.location_link}
+                onChange={handleChange}
+                className={`input-field ${
+                  validationErrors.location_link
+                    ? "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                    : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                }`}
+                placeholder="Location Link"
+                required
+              />
+              {validationErrors.location_link && (
+                <p className="text-red-500 text-sm">
+                  {validationErrors.location_link}
+                </p>
+              )}
+            </div>
+              <div className="p-2">
                 <label
-                  htmlFor="payment"
+                  htmlFor="payment_per_hour"
                   className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Payment
                 </label>
                 <input
                   type="text"
-                  name="payment"
-                  value={formData.payment}
+                  name="payment_per_hour"
+                  value={formData.payment_per_hour}
                   onChange={handleChange}
                   className={`input-field ${
-                    validationErrors.payment
+                    validationErrors.payment_per_hour
                       ? "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                   }`}
-                  placeholder="Payment"
+                  placeholder="payment_per_hour"
                   required
                 />
-                {validationErrors.payment && (
+                {validationErrors.payment_per_hour && (
                   <p className="text-red-500 text-sm">
-                    {validationErrors.payment}
+                    {validationErrors.payment_per_hour}
                   </p>
                 )}
               </div>
@@ -373,13 +506,14 @@ const AdminSignupForm = ({ onSubmit }) => {
           {/* Additional elements */}
           <div>
             <Link
-              to="/adminlogin"
+              to="adminlogin/"
               className="text-sm font-medium text-blue-500 dark:text-gray-300 mt-4"
             >
               Already have an account? Login here
             </Link>
           </div>
         </form>
+        {submitError && <p>{submitError}</p>}
       </div>
     </div>
   );
