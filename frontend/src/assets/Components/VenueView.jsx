@@ -25,8 +25,8 @@
     const [contact, setContact] = useState('');
     const [contactError, setContactError] = useState('');
     const [selectedVenue, setSelectedVenue] = useState(null);
-
-    
+    const [mapUrl, setMapUrl] = useState('');
+    // const GOOGLE_MAPS_API_KEY = 'AIzaSyBo9SCh9z3AbDYpKwcQqMyfll2DmBQ3MmU';
     useEffect(() => {
       const fetchVenueDetails = async () => {
         try {
@@ -41,10 +41,14 @@
             payment: data.payment,
             images: [data.image1, data.image2, data.image3],
             location: data.location,
-            map_iframe: data.map_iframe,
+            map_url: data.map_url,
           };
           setVenue(venueData);
-          setSelectedVenue(venueData); // Set selectedVenue when venue data is fetched
+          setSelectedVenue(venueData);
+          const embedUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBo9SCh9z3AbDYpKwcQqMyfll2DmBQ3MmU&q=${encodeURIComponent(data.map_url)}`;
+          setMapUrl(embedUrl);
+          console.log(venueData);
+          // setMapIframe(data.map_iframe);  // Set selectedVenue when venue data is fetched
         } catch (error) {
           console.error('Error fetching venue details:', error);
         }
@@ -158,18 +162,24 @@
                 Check
               </button>
             </div>
-            {/* {availabilityChecked && (
-         <p className="text-green-500 mb-4">
-            {availabilityChecked && venue && !venue.available
-             ? 'Venue is available for the selected date and time slot. You can proceed with booking.'
-              : 'Venue is not available for the selected date and time slot. Please choose another date or time slot.'}
-            </p>
-            )} */}
             <div className="flex justify-end">
               <button onClick={handleBookNowClick} className="bg-black text-white px-10 py-4 rounded-lg">
                 Book Now
               </button>
             </div>
+            {mapUrl && (
+          <div>
+            <iframe
+              title="Map"
+              src={mapUrl} // Use the map URL from the backend
+              width="100%"
+              height="400"
+              frameBorder="0"
+              allowFullScreen
+              loading="lazy"
+            ></iframe>
+          </div>
+        )}
           </div>
         ) : (
           <div>Loading...</div>
