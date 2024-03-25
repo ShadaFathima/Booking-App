@@ -11,7 +11,11 @@ const VenueCard = ({ image, title, description, payment }) => {
     <div className="venue-card mb-8 mx-2">
       <div className="h-[375px] bg-white rounded-xl shadow-md overflow-hidden">
         <div className="rounded-t-xl overflow-hidden h-40 p-4">
-          <img className="w-full h-full object-cover rounded-xl" src={image} alt="" />
+          <img
+            className="w-full h-full object-cover rounded-xl"
+            src={image}
+            alt=""
+          />
         </div>
         <div className="p-4">
           <h5 className="text-lg font-bold text-center mb-2">{title}</h5>
@@ -36,7 +40,7 @@ VenueCard.propTypes = {
   payment: PropTypes.number.isRequired,
 };
 
-const VenueList = ({isLoggedIn,setIsLoggedIn}) => {
+const VenueList = ({ isLoggedIn, setIsLoggedIn }) => {
   const [venues, setVenues] = useState([]);
 
   useEffect(() => {
@@ -57,21 +61,21 @@ const VenueList = ({isLoggedIn,setIsLoggedIn}) => {
 
   return (
     <div>
-      <Navbar  isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
-    <div className=" bg-orange-50">
-      <div className="grid grid-cols-4 gap-8 py-10 bg-orange-50 mx-20">
-        {venues.map((venue, index) => (
-          <VenueCard
-          key={index}
-          image={venue.image}
-          title={venue.title}
-          description={venue.description}
-          payment={parseFloat(venue.payment)}
-          />
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <div className=" bg-gray-200">
+        <div className="grid grid-cols-4 gap-8 py-10 bg-gray-200 mx-20">
+          {venues.map((venue, index) => (
+            <VenueCard
+              key={index}
+              image={venue.image}
+              title={venue.title}
+              description={venue.description}
+              payment={parseFloat(venue.payment)}
+            />
           ))}
+        </div>
       </div>
-    </div>
-    <Footer />
+      <Footer />
     </div>
   );
 };

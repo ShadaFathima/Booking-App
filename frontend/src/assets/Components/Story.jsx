@@ -1,4 +1,6 @@
 import "./story.css";
+import mission from "../images/mission.jpeg";
+import story from "../images/story.jpeg";
 
 const Story = () => {
   return (
@@ -14,20 +16,12 @@ const Story = () => {
             of spaces, ensuring every event is a <br /> success. &quot;
           </p>
         </div>
-        <img
-          src="https://i.pinimg.com/236x/65/6d/41/656d41426bc16d1bba435e1c6bf8cdd6.jpg"
-          alt="Our Mission"
-          className="image"
-        />
+        <img src={mission} alt="Our Mission" className="image" />
       </div>
 
       {/* Our Story Subsection */}
       <div className="subsection story">
-        <img
-          src="https://i.pinimg.com/236x/17/68/8f/17688f1454faf47dbad398b9bab98349.jpg"
-          alt="Our Story"
-          className="image"
-        />
+        <img src={story} alt="Our Story" className="image" />
         <div className="content">
           <h2 className="heading">Our Story</h2>
           <p className="description">

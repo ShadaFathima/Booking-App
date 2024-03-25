@@ -7,21 +7,26 @@ const VenueCard = ({ image, title, description, payment }) => {
     <div className="h-[375px] w-[300px] bg-white rounded-md shadow-md overflow-hidden transition-transform ease-in-out duration-300 transform hover:scale-105 mx-4">
       <div className="h-[375px] bg-white rounded-xl shadow-md overflow-hidden">
         <div className="rounded-t-xl overflow-hidden h-40 p-4">
-          <img className="w-full h-full object-cover rounded-xl" src={image} alt="" />
+          <img
+            className="w-full h-full object-cover rounded-xl"
+            src={image}
+            alt=""
+          />
         </div>
-      <div className="p-4">
-        <h5 className="text-lg font-bold text-center mb-2">{title}</h5>
-        <p className="text-gray-700 mb-4">{description}</p>
-        <p className="text-red-600 font-semibold">{`${payment}/-`}</p>
-        <Link
-          to={`/venue/${title}`}
-          className="block mt-4 text-black hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300"
-        >
-          Read more
-        </Link>
+        <div className="p-4">
+          <h5 className="text-lg font-bold text-center mb-2">{title}</h5>
+          <p className="text-gray-700 mb-4">{description}</p>
+          <p className="text-red-600 font-semibold">{`${payment}/-`}</p>
+          <Link
+            to={`/venue/${title}`}
+            className="block mt-4 text-black hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300"
+          >
+            Read more
+          </Link>
+        </div>
       </div>
+      /
     </div>
-    /</div>
   );
 };
 
@@ -53,7 +58,8 @@ const VenueSlider = () => {
   }, []);
 
   const totalVenues = data?.venues?.length || 0;
-  const visibleVenues = data?.venues?.slice(currentIndex, currentIndex + 4) || [];
+  const visibleVenues =
+    data?.venues?.slice(currentIndex, currentIndex + 4) || [];
 
   const showPrevious = () => {
     setCurrentIndex((prevIndex) =>
@@ -68,7 +74,7 @@ const VenueSlider = () => {
   };
 
   return (
-    <div className="relative py-10 bg-orange-50 overflow-hidden flex items-center justify-center">
+    <div className="relative py-10 bg-gray-200 overflow-hidden flex items-center justify-center">
       <div className="flex space-x-4 p-8 transition-transform ease-in-out duration-300 transform translate-x-[-${currentIndex * 300}px]">
         {visibleVenues.map((venue, index) => (
           <VenueCard
