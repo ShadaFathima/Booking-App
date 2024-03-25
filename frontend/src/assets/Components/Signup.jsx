@@ -39,21 +39,39 @@ const Signup = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "X-CSRFToken": csrfToken, // Include CSRF token in headers
+            "X-CSRFToken": csrfToken,
           },
-          withCredentials: true, // include credentials for CORS requests
+          withCredentials: true,
         }
       );
-      if (response.data.success) {
-        console.log("success");
-        window.location.href = "/login/"; // Redirect to homepage on successful registration
+      if (response.status === 200) {
+        const responseData = response.data;
+        if (responseData && responseData.success) {
+          console.log("success");
+          window.location.href = "/login/";
+        } else if (responseData && responseData.errors) {
+          // Handle validation errors
+          const errorMessages = Object.values(responseData.errors).flat();
+          console.error("Validation errors:", errorMessages);
+          // Display error messages to the user
+          // For example, you can set state to display errors in your component
+          // setErrorMessages(errorMessages);
+        } else if (responseData && responseData.message) {
+          console.error(responseData.message);
+        } else {
+          alert("Please try with another username or password");
+          console.error("Please try with another username or password :", responseData);
+        }
       } else {
-        console.error(response.data.message);
+        console.error("Unexpected response status:", response.status);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error:", error);
     }
   };
+  
+  
+  
 
   return (
     <div className="flex items-center justify-center h-screen">
