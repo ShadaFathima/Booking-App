@@ -1,17 +1,17 @@
 // LoginForm.jsx
 /* eslint-disable react/prop-types */
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const LoginForm = ({setIsLoggedIn}) => {
+const LoginForm = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
-    password: ""
+    password: "",
   });
   const [error, setError] = useState(""); // State to store error message
 
-  const handleChange = (e) => { 
+  const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -19,24 +19,23 @@ const LoginForm = ({setIsLoggedIn}) => {
     e.preventDefault();
     console.log(formData);
     try {
-      const response = await fetch('http://127.0.0.1:8000/accounts/login/', {
-        method: 'POST',
+      const response = await fetch("http://127.0.0.1:8000/accounts/login/", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
-        
+        body: JSON.stringify(formData),
       });
       const data = await response.json();
       if (data.success) {
         setIsLoggedIn(true);
-        navigate('/', { state: { fetchUserProfile: true } }); 
+        navigate("/", { state: { fetchUserProfile: true } });
         // window.location.href = '/';
       } else {
         setError(data.message);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
@@ -98,16 +97,17 @@ const LoginForm = ({setIsLoggedIn}) => {
           <div className="flex items-center mt-3">
             <div className="flex-1 border-b border-gray-300 dark:border-gray-600"></div>
             <span className="mx-3 text-sm text-gray-500 dark:text-gray-300">
-              or sign in with
+              {/* or sign in with */}
             </span>
+
             <div className="flex-1 border-b border-gray-300 dark:border-gray-600"></div>
           </div>
-          <button
+          {/* <button
             type="button"
             className="w-full text-gray-700 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800 mt-4"
           >
             Sign in with Google
-          </button>
+          </button> */}
           <div className="text-sm font-medium text-blue-500 dark:text-gray-300 mt-4">
             <Link to="/signup">Create account</Link>
           </div>

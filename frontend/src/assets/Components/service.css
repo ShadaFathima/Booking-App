@@ -27,8 +27,8 @@
 
 .subsection-image-left,
 .subsection-image-right {
-  width: 150px; /* Adjust the size as needed */
-  height: 150px; /* Adjust the size as needed */
+  width: 300px; /* Adjust the size as needed */
+  height: 300px; /* Adjust the size as needed */
   object-fit: cover;
   border-radius: 10px; /* Make it square */
   margin: 0 1rem; /* Adjust margin between image and description */

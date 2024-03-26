@@ -7,7 +7,7 @@ import search from "../../images/search.png";
 import "./Navbar.css"; // Import CSS file for custom styles
 import axios from "axios"; // Import Axios for making HTTP requests
 
-const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn, aboutUsRef }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState(''); // State to store the search query
 

@@ -11,21 +11,27 @@ import Story from "./Components/Story";
 import VenueSlider from "./Components/VenueSlider";
 // import PaymentForm from "./Components/PaymentForm";
 // import VenueCard from "./Components/VenueSlider";
+import { useRef } from "react";
 
-const MainPage = ({isLoggedIn,setIsLoggedIn}) => {
+const MainPage = ({ isLoggedIn, setIsLoggedIn }) => {
+  const aboutUsRef = useRef(null);
+
   return (
     <div>
-      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      
+      <Navbar
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        aboutUsRef={aboutUsRef}
+      />
+
       <Banner />
       <VenueSlider />
       {/* <VenueCard /> */}
       <Service />
       <Review />
-      <AboutUs />
+      <AboutUs aboutUsRef={aboutUsRef} />
       <Story />
       <Feedback />
-    
 
       <Footer />
     </div>
