@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
-import { Link } from "react-router-dom";
+import { Link  } from "react-router-dom";
 import { useState } from "react";
 import cart from "../../images/cart.png";
 import avatar from "../../images/user.png";
 import search from "../../images/search.png";
 import "./Navbar.css"; // Import CSS file for custom styles
-// import { Link, animateScroll as scroll } from "react-scroll";
+import axios from "axios"; // Import Axios for making HTTP requests
 
 const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(''); // State to store the search query
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -20,8 +21,19 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
     setIsMenuOpen(false); // Close the menu after logout
   };
 
-  // const scrollToAbout = () => {
-  //   scroll.scrollToBottom();
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/search/?q=${encodeURIComponent(searchQuery)}`);
+      // Handle response data
+      console.log(response.data);
+      window.location.href('/venue/${title}')
+    } catch (error) {
+      console.error('Error searching:', error);
+    }
+  };
+
+  // const navigateToVenue = (title) => {
+  //   navigate(`/venue/${title}`);
   // };
 
   return (
@@ -38,19 +50,6 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
             VENUES
           </Link>
         </li>
-        {/* <li className="mx-8 text-white">
-          <Link
-          
-            activeClass="active"
-            to="about"
-            spy={true}
-            smooth={true}
-            duration={500}
-            onClick={scrollToAbout}
-          >
-            ABOUT
-          </>
-        </li> */}
         <li className="mx-8 text-white">ABOUT</li>
         <li className="mx-8">
           <Link to="/contact" className="text-white">
@@ -63,8 +62,11 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
         <input
           type="text"
           placeholder="Search.."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
           className="px-10 py-2 rounded-full bg-white flex-1 text-black"
         />
+        <button onClick={handleSearch} className="px-4 py-2 bg-white-500 text-white rounded-lg ml-2">Search</button>
       </div>
       {isLoggedIn ? (
         <>
