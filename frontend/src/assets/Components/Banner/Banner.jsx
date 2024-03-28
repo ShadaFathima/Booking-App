@@ -1,4 +1,5 @@
 import "./Banner.css";
+import { Link } from "react-router-dom";
 
 function Banner() {
   return (
@@ -16,7 +17,11 @@ function Banner() {
           &quot;Explore and book your perfect venue effortlessly. <br /> Create
           extraordinary moments with ease.&quot;
         </p>
-        <button className="explore-button">Explore →</button>
+        <>
+          <Link to="/venuelist">
+            <button className="explore-button">Explore →</button>
+          </Link>
+        </>
       </div>
     </div>
   );

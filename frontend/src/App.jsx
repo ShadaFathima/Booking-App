@@ -76,7 +76,7 @@ const App = () => {
         ></Route>
         <Route path="/userbookings" element={<BookingPage />}></Route>
         <Route path="/adminview" element={<AdminView />}></Route>
-        <Route path="/adminsignup" element={<AdminSignupForm />}></Route>
+        <Route path="/addvenue" element={<AdminSignupForm />}></Route>
         <Route path="/adminlogin" element={<AdminLoginForm />}></Route>
       </Routes>
     </BrowserRouter>

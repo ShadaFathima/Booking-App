@@ -1,15 +1,15 @@
 /* eslint-disable react/prop-types */
-import { Link  } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import cart from "../../images/cart.png";
 import avatar from "../../images/user.png";
-import search from "../../images/search.png";
+// import search from "../../images/search.png";
 import "./Navbar.css"; // Import CSS file for custom styles
-import axios from "axios"; // Import Axios for making HTTP requests
+// import axios from "axios"; // Import Axios for making HTTP requests
 
 const Navbar = ({ isLoggedIn, setIsLoggedIn, aboutUsRef }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(''); // State to store the search query
+  // const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -21,21 +21,26 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, aboutUsRef }) => {
     setIsMenuOpen(false); // Close the menu after logout
   };
 
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(`http://127.0.0.1:8000/search/?q=${encodeURIComponent(searchQuery)}`);
-      // Handle response data
-      console.log(response.data);
-      window.location.href('/venue/${title}')
-    } catch (error) {
-      console.error('Error searching:', error);
-    }
-  };
+  // const handleSearch = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://127.0.0.1:8000/search/?q=${encodeURIComponent(searchQuery)}`
+  //     );
+  //     // Handle response data
+  //     console.log(response.data);
+  //     window.location.href("/venue/${title}");
+  //   } catch (error) {
+  //     console.error("Error searching:", error);
+  //   }
+  // };
 
   // const navigateToVenue = (title) => {
   //   navigate(`/venue/${title}`);
   // };
 
+  const scrollToAboutUs = (ref) => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <div className="navbar bg-black text-white py-10 px-8 md:px-12 lg:px-24 xl:px-32 flex justify-between items-center relative">
       <h1 className="text-5xl font-bold cursor-pointer">EVENTIO</h1>
@@ -50,14 +55,19 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, aboutUsRef }) => {
             VENUES
           </Link>
         </li>
-        <li className="mx-8 text-white">ABOUT</li>
+        <li
+          onClick={() => scrollToAboutUs(aboutUsRef)}
+          className="mx-8 text-white cursor-pointer"
+        >
+          ABOUT
+        </li>
         <li className="mx-8">
           <Link to="/contact" className="text-white">
             CONTACT
           </Link>
         </li>
       </ul>
-      <div className="searchbox relative h-10 flex items-center">
+      {/* <div className="searchbox relative h-10 flex items-center">
         <img src={search} alt="Search" className="w-6 h-6 absolute left-2" />
         <input
           type="text"
@@ -67,13 +77,12 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, aboutUsRef }) => {
           className="px-10 py-2 rounded-full bg-white flex-1 text-black"
         />
         <button onClick={handleSearch} className="px-4 py-2 bg-white-500 text-white rounded-lg ml-2">Search</button>
-      </div>
+      </div> */}
       {isLoggedIn ? (
         <>
-          <Link to="/userbookings">
-            {" "}
-            <img src={cart} alt="Cart" className="w-7 ml-6 cursor-pointer" />
-          </Link>
+          {/* <Link to="/userbookings"> */}{" "}
+          <img src={cart} alt="Cart" className="w-7 ml-6 cursor-pointer" />
+          {/* </Link> */}
           <div className="relative">
             <img
               src={avatar}
@@ -86,12 +95,12 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, aboutUsRef }) => {
             />
             {isMenuOpen && (
               <div className="dropdown-menu absolute top-full right-0 bg-white border border-gray-200 rounded-lg shadow-md mt-2">
-                <Link
+                {/* <Link
                   to="/profile"
                   className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
                 >
                   Your Profile
-                </Link>
+                </Link> */}
                 <button
                   onClick={handleLogout}
                   className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"

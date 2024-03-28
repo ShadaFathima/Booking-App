@@ -1,34 +1,33 @@
 import { Link } from "react-router-dom";
-import axios from 'axios';
-import React, { useState } from "react";
-
+import axios from "axios";
+import { useState } from "react";
 
 const AdminSignupForm = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
+    title: "",
+    description: "",
     image1: null,
     image2: null,
     image3: null,
-    location: '',
-    location_link: '',
-    payment_per_hour: '',
-    name: '',
-    email: '',
-    contact: '',
-    password1: '', 
-    password2: '',
+    location: "",
+    location_link: "",
+    payment_per_hour: "",
+    name: "",
+    email: "",
+    contact: "",
+    password1: "",
+    password2: "",
   });
   const [fileData, setFileData] = useState({
     image1: null,
     image2: null,
     image3: null,
   });
-  const [passwordError, setPasswordError] = useState('');
+  const [passwordError, setPasswordError] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
-  const [submitError, setSubmitError] = useState('');
-  
+  const [submitError, setSubmitError] = useState("");
+
   // const csrfToken = 'HYO5wFcXA5VFtT8hFPfwR5sMfBO4JFfaYrMpLv2pG8K6I8XxYSOl3jgbUjodq4Gr';
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -40,7 +39,12 @@ const AdminSignupForm = () => {
     } else {
       setFormData({
         ...formData,
-        [name]: name === "payment_per_hour" ? (value !== "" ? value.toString() : "") : value,
+        [name]:
+          name === "payment_per_hour"
+            ? value !== ""
+              ? value.toString()
+              : ""
+            : value,
       });
     }
     // Clear validation error when user types in the field
@@ -49,7 +53,6 @@ const AdminSignupForm = () => {
       [name]: "",
     });
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,30 +71,31 @@ const AdminSignupForm = () => {
     formDataToSend.append("image3", fileData.image3);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/save_venue/', formDataToSend);
+      const response = await axios.post(
+        "http://127.0.0.1:8000/save_venue/",
+        formDataToSend
+      );
 
       if (response.status !== 201) {
-        throw new Error('Failed to save venue');
+        throw new Error("Failed to save venue");
       }
 
-      console.log('Venue saved successfully');
-      window.location.href = "/"; 
+      console.log("Venue saved successfully");
+      window.location.href = "/";
     } catch (error) {
       if (error.response && error.response.data) {
         try {
           // Attempt to decode response data using UTF-8
           const decodedData = JSON.stringify(error.response.data);
-          console.error('Response data:', decodedData);
+          console.error("Response data:", decodedData);
         } catch (decodeError) {
-          console.error('Error decoding response data:', decodeError);
+          console.error("Error decoding response data:", decodeError);
         }
       }
-      setSubmitError('Failed to save venue');
-      console.error('Error:', error);
+      setSubmitError("Failed to save venue");
+      console.error("Error:", error);
     }
   };
-  
-
 
   const handleNext = () => {
     console.log("Current step:", step); // Log the current step
@@ -170,15 +174,12 @@ const AdminSignupForm = () => {
     return Object.keys(errors).length === 0;
   };
 
-  
-  
-  
   return (
     <div className="flex items-center justify-center ">
       <div className="w-full max-w-md p-6 bg-white border border-gray-200 rounded-lg shadow-lg sm:p-8 md:p-10 dark:bg-gray-800 dark:border-gray-700">
         <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
           <h5 className="text-xl font-medium text-gray-900 dark:text-white">
-            {step === 1 ? "Admin Sign Up - Step 1" : "Admin Sign Up - Step 2"}
+            {step === 1 ? "Add venue - Step 1" : "Add venue - Step 2"}
           </h5>
           {step === 1 && (
             <>
@@ -354,27 +355,27 @@ const AdminSignupForm = () => {
                 )}
               </div>
               <div className="p-2">
-              <label
-                htmlFor="image1"
-                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Venue Image 1
-              </label>
-              <input
-                type="file"
-                name="image1"
-                accept="image/*"
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    image1: e.target.files[0],
-                  })
-                }
-                required
-              />
-              {/* Add similar fields for venueImage2 and venueImage3 */}
-            </div>
-            <div className="p-2">
+                <label
+                  htmlFor="image1"
+                  className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Venue Image 1
+                </label>
+                <input
+                  type="file"
+                  name="image1"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      image1: e.target.files[0],
+                    })
+                  }
+                  required
+                />
+                {/* Add similar fields for venueImage2 and venueImage3 */}
+              </div>
+              <div className="p-2">
                 <label
                   htmlFor="image2"
                   className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
@@ -442,32 +443,32 @@ const AdminSignupForm = () => {
                 )}
               </div>
               <div className="p-2">
-              <label
-                htmlFor="location_link"
-                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Location Link
-              </label>
-              <input
-                type="url"
-                name="location_link"
-                id="location_link"
-                value={formData.location_link}
-                onChange={handleChange}
-                className={`input-field ${
-                  validationErrors.location_link
-                    ? "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                }`}
-                placeholder="Location Link"
-                required
-              />
-              {validationErrors.location_link && (
-                <p className="text-red-500 text-sm">
-                  {validationErrors.location_link}
-                </p>
-              )}
-            </div>
+                <label
+                  htmlFor="location_link"
+                  className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Location Link
+                </label>
+                <input
+                  type="url"
+                  name="location_link"
+                  id="location_link"
+                  value={formData.location_link}
+                  onChange={handleChange}
+                  className={`input-field ${
+                    validationErrors.location_link
+                      ? "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  }`}
+                  placeholder="Location Link"
+                  required
+                />
+                {validationErrors.location_link && (
+                  <p className="text-red-500 text-sm">
+                    {validationErrors.location_link}
+                  </p>
+                )}
+              </div>
               <div className="p-2">
                 <label
                   htmlFor="payment_per_hour"
